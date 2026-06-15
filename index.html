@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大阪激安居酒屋データベース</title>
+
+    <!-- OGP（SNSシェア・SEO用） -->
+    <meta name="description" content="大阪を中心に激安居酒屋・コストパフォーマンスに優れた居酒屋をまとめているデータベースサイトです。">
+    <meta property="og:title" content="大阪激安居酒屋データベース">
+    <meta property="og:description" content="大阪を中心に激安居酒屋・コストパフォーマンスに優れた居酒屋をまとめているデータベースサイトです。">
+    <meta property="og:image" content="https://osaka-gekiyasu-db.com/images/ogp.jpg">
+    <meta property="og:url" content="https://osaka-gekiyasu-db.com/">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>大阪激安居酒屋データベース</h1>
+            <p>大阪を中心に激安居酒屋やコストパフォーマンスに優れた居酒屋をまとめています</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="layout-wrapper">
+            <!-- メインコンテンツ -->
+            <section class="main-content">
+                <h2>居酒屋一覧(新着順)</h2>
+                <div class="search-box">
+                    <i class="mdi mdi-magnify search-icon"></i>
+                    <input type="text" id="search-input" placeholder="店名・エリア・特徴で検索..." oninput="filterBySearch(this.value)">
+                </div>
+                <div id="shop-list" class="shop-list">
+                    <!-- JavaScriptにより店舗カードがここに生成されます -->
+                    <p class="loading">読み込み中...</p>
+                </div>
+                
+                <!-- ページ送りボタン -->
+                <div id="pagination" class="pagination"></div>
+            </section>
+
+            <!-- サイドバー（sidebar.jsにより自動生成） -->
+            <aside class="sidebar" id="common-sidebar"></aside>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 大阪激安居酒屋データベース</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script src="sidebar.js"></script>
+</body>
+</html>
