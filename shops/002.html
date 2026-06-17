@@ -29,7 +29,7 @@
 
                     <div class="dates">
                         <span>最終訪問日：2026/3/26</span>
-                        <span>最終更新日：2026/6/2</span>
+                        <span>最終更新日：2026/6/16</span>
                     </div>
 
                     <div class="shop-subtitle">平日夕方まで限定100円60分飲み放題、必須おつまみ2品頼んでもせんべろ価格</div>
@@ -42,6 +42,8 @@
                         <div class="price-item"><span class="label"><i class="mdi mdi-account-group"></i> 推奨人数</span>1～4人</div>
                         <div class="price-item"><span class="label"><i class="mdi mdi-smoking"></i> 喫煙</span>禁煙</div>
                     </div>
+
+                    <div class="tags-container"><span class="tag">お通しなし</span><span class="tag">飲み放題</span><span class="tag">0次会向け</span><span class="tag">1次会向け</span></div>
 
                     <h3>店舗情報</h3>
                     <p>公式ホームページ・SNS</p>
@@ -62,7 +64,7 @@
                     <li>モバイルオーダーで100円飲み放題の追加分もスマホから</li>
                     <li>新しい大阪ビルの店舗らしい綺麗目な店舗</li>
                     <li>100円飲み放題は指定フードから1人2品の注文が必須なので注意</li>
-                    <li>フードはがっつりしたものは少なく100円飲み放題をじっくり楽しめるラインナップ</li>
+                    <li>フードはがっつりしたものは少なく、100円飲み放題をじっくり楽しめるラインナップ</li>
                     </ul>
 
                     <h3>注文例</h3>
@@ -99,8 +101,8 @@
                     </li>
                     <li>
                         <figure style="margin: 0 0 20px 0;">
-                            <img src="../images/shop002_4.jpg" alt="20250326_指定フードの大根唐揚げは酒に合う1品">
-                            <figcaption style="margin-top: 5px; font-size: 0.9em;">20250326_指定フードの大根唐揚げは酒に合う1品</figcaption>
+                            <img src="../images/shop002_4.jpg" alt="20250326_指定フードの大根からあげは酒に合う1品">
+                            <figcaption style="margin-top: 5px; font-size: 0.9em;">20250326_指定フードの大根からあげは酒に合う1品</figcaption>
                         </figure>
                     </li>
                     <li>
@@ -117,8 +119,8 @@
                     </li>
                     <li>
                         <figure style="margin: 0 0 20px 0;">
-                            <img src="../images/shop002_7.jpg" alt="20250326_1050円で1時間飲み放題＋2品が実現">
-                            <figcaption style="margin-top: 5px; font-size: 0.9em;">20250326_1050円で1時間飲み放題＋2品が実現</figcaption>
+                            <img src="../images/shop002_7.jpg" alt="20250326_1050円で1時間飲み放題＋2品">
+                            <figcaption style="margin-top: 5px; font-size: 0.9em;">20250326_1050円で1時間飲み放題＋2品</figcaption>
                         </figure>
                     </li>
                     </ul>
@@ -133,6 +135,20 @@
                 <div style="margin-top: 30px;">
                     <a href="../index.html" class="page-btn">← トップページへ戻る</a>
                 </div>
+
+                <!-- 共有ボタン -->
+                <div class="share-buttons-area">
+                    <p class="share-label"><i class="mdi mdi-share-variant"></i> このページを共有</p>
+                    <div class="share-buttons">
+                        <a class="share-btn share-x" href="#" onclick="shareX(event)" title="X(Twitter)でシェア"><i class="mdi mdi-twitter"></i><span>X</span></a>
+                        <a class="share-btn share-facebook" href="#" onclick="shareFacebook(event)" title="Facebookでシェア"><i class="mdi mdi-facebook"></i><span>Facebook</span></a>
+                        <a class="share-btn share-line" href="#" onclick="shareLine(event)" title="LINEでシェア"><i class="mdi mdi-chat"></i><span>LINE</span></a>
+                        <a class="share-btn share-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" title="Instagramを開く"><i class="mdi mdi-instagram"></i><span>Instagram</span></a>
+                        <a class="share-btn share-bluesky" href="#" onclick="shareBluesky(event)" title="Blueskyでシェア"><i class="mdi mdi-butterfly"></i><span>Bluesky</span></a>
+                        <a class="share-btn share-threads" href="#" onclick="shareThreads(event)" title="Threadsでシェア"><i class="mdi mdi-at"></i><span>Threads</span></a>
+                        <a class="share-btn share-copy" href="#" onclick="copyUrl(event)" title="URLをコピー"><i class="mdi mdi-link-variant"></i><span>URLをコピー</span></a>
+                    </div>
+                </div>
             </div><!-- /.main-content -->
 
             <!-- サイドバー（sidebar.jsにより自動生成） -->
@@ -145,5 +161,21 @@
     </footer>
 
     <script src="../sidebar.js"></script>
+    <script>
+        function shareX(e) { e.preventDefault(); window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(document.title), '_blank', 'noopener,noreferrer'); }
+        function shareFacebook(e) { e.preventDefault(); window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank', 'noopener,noreferrer'); }
+        function shareLine(e) { e.preventDefault(); window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(document.title), '_blank', 'noopener,noreferrer'); }
+        function shareBluesky(e) { e.preventDefault(); window.open('https://bsky.app/intent/compose?text=' + encodeURIComponent(document.title + ' ' + location.href), '_blank', 'noopener,noreferrer'); }
+        function shareThreads(e) { e.preventDefault(); window.open('https://www.threads.net/intent/post?text=' + encodeURIComponent(location.href), '_blank', 'noopener,noreferrer'); }
+        async function copyUrl(e) {
+            e.preventDefault();
+            try {
+                await navigator.clipboard.writeText(location.href);
+                const btn = e.currentTarget; const span = btn.querySelector('span'); const orig = span.textContent;
+                span.textContent = 'コピーしました！'; btn.classList.add('copied');
+                setTimeout(() => { span.textContent = orig; btn.classList.remove('copied'); }, 2000);
+            } catch (_) { prompt('以下のURLをコピーしてください', location.href); }
+        }
+    </script>
 </body>
 </html>
