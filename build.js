@@ -89,30 +89,90 @@ function buildOrders(orders) {
     if (!orders || orders.length === 0) {
         return `<p style="color:#999;">準備中</p>`;
     }
-    const items = orders.map(order => {
-        const subItems = order.items.map(item => `                        <li>${item}</li>`).join('\n');
-        return `                    <li style="margin-bottom: 10px;">
-                        <div><span class="price-tag">合計金額：${order.total}</span></div>
-                        <ul class="order-sublist">
-${subItems}
-                        </ul>
-                    </li>`;
+    const blocks = orders.map(order => {
+        // 各アイテムを「商品名(単価)×数量　※備考」の形式でパースしてテーブル行に変換
+        // パターン例:
+        //   "お通し(418円)×7人"
+        //   "2時間飲み放題(438円)×7人　※LINEクーポン当選価格"
+        //   "うずらの醬油漬け(429円)"  ← 数量なし
+        const rows = order.items.map(item => {
+            // 備考（全角スペース＋※）を分離
+            const noteSplit = item.split(/[\u3000\s]※/);
+            const main = noteSplit[0].trim();
+            const note = noteSplit[1] ? noteSplit[1].trim() : '';
+
+            // 単価部分 (xxx) を分離
+            const priceMatch = main.match(/^(.*?)\(([^)]+)\)(.*)$/);
+            if (priceMatch) {
+                const name  = priceMatch[1].trim();
+                const price = priceMatch[2].trim();
+                const qty   = priceMatch[3].replace(/^×/, '').trim();
+                const noteHtml = note ? `<br><span class="order-note">※${note}</span>` : '';
+                const qtyCell  = qty ? `×${qty}` : '1';
+                return `                        <tr><td class="order-name">${name}${noteHtml}</td><td class="order-price">${price}</td><td class="order-qty">${qtyCell}</td></tr>`;
+            }
+            // パターン不一致はそのまま全幅で表示
+            return `                        <tr><td class="order-name" colspan="3">${item}</td></tr>`;
+        }).join('\n');
+
+        return `                    <div class="order-block">
+                        <div class="order-total"><span class="price-tag">合計金額：${order.total}</span></div>
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th class="order-name">メニュー</th>
+                                    <th class="order-price">単価</th>
+                                    <th class="order-qty">数量</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+${rows}
+                            </tbody>
+                        </table>
+                    </div>`;
     }).join('\n');
-    return `<ul style="margin-left: 0;">\n${items}\n                    </ul>`;
+    return blocks;
 }
 
-/** 写真リストを生成 */
+/** 写真リストを生成（ギャラリー形式：メイン表示エリア＋サムネイル横並び） */
 function buildPhotos(photos) {
     if (!photos || photos.length === 0) {
         return `<p style="color:#999;">準備中</p>`;
     }
-    const figures = photos.map(photo => `                    <li>
-                        <figure style="margin: 0 0 20px 0;">
-                            <img src="${photo.src}" alt="${photo.caption}">
-                            <figcaption style="margin-top: 5px; font-size: 0.9em;">${photo.caption}</figcaption>
-                        </figure>
-                    </li>`).join('\n');
-    return `<ul class="photo-list">\n${figures}\n                    </ul>`;
+    const firstPhoto = photos[0];
+    const thumbs = photos.map((photo, i) => {
+        const activeClass = i === 0 ? ' active' : '';
+        return `                    <li class="${activeClass.trim()}" data-src="${photo.src}" data-caption="${photo.caption}">
+                        <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
+                    </li>`;
+    }).join('\n');
+
+    return `                    <div class="photo-gallery">
+                        <div class="photo-gallery-main" id="photo-main">
+                            <img src="${firstPhoto.src}" alt="${firstPhoto.caption}" id="photo-main-img">
+                        </div>
+                        <p class="photo-gallery-caption" id="photo-main-caption">${firstPhoto.caption}</p>
+                        <ul class="photo-gallery-thumbs" id="photo-thumbs">
+${thumbs}
+                        </ul>
+                    </div>
+                    <script>
+                    (function() {
+                        var mainImg     = document.getElementById('photo-main-img');
+                        var mainCaption = document.getElementById('photo-main-caption');
+                        var thumbs      = document.getElementById('photo-thumbs');
+                        if (!thumbs) return;
+                        thumbs.addEventListener('click', function(e) {
+                            var li = e.target.closest('li[data-src]');
+                            if (!li) return;
+                            mainImg.src          = li.dataset.src;
+                            mainImg.alt          = li.dataset.caption;
+                            mainCaption.textContent = li.dataset.caption;
+                            thumbs.querySelectorAll('li').forEach(function(el) { el.classList.remove('active'); });
+                            li.classList.add('active');
+                        });
+                    })();
+                    </script>`;
 }
 
 // ─── テンプレート置換 ─────────────────────────────────────────

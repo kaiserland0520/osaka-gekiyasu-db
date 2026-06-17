@@ -25,6 +25,7 @@ h1 .header-logo,
 .site-name .header-logo {
     display: inline-block;
     vertical-align: middle;
+    max-width: 100%;
 }
 
 /* 検索ボックス */
@@ -295,19 +296,136 @@ h2 {
     white-space: nowrap;
 }
 
-.order-sublist {
-    list-style-type: none;
-    padding-left: 0.5em;
-    margin: 5px 0 0 0;
+.order-block {
+    margin-bottom: 24px;
 }
-.order-sublist li {
-    position: relative;
-    padding-left: 1em;
+
+.order-total {
+    margin-bottom: 8px;
+    font-weight: bold;
 }
-.order-sublist li::before {
-    content: "-";
-    position: absolute;
-    left: 0;
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    table-layout: fixed;
+}
+
+.order-table thead tr {
+    background: #f0f5ff;
+}
+
+.order-table th,
+.order-table td {
+    border: 1px solid var(--border-color);
+    padding: 6px 8px;
+    vertical-align: top;
+    word-break: break-word;
+}
+
+.order-table th {
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.order-table th.order-name,
+.order-table td.order-name {
+    width: auto;
+    text-align: left;
+}
+
+.order-table th.order-price,
+.order-table td.order-price {
+    width: 80px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.order-table th.order-qty,
+.order-table td.order-qty {
+    width: 64px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.order-note {
+    font-size: 0.8em;
+    color: var(--label-color);
+}
+
+/* 写真ギャラリー */
+.photo-gallery {
+    margin-top: 15px;
+}
+
+.photo-gallery-main {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #000;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.photo-gallery-main figcaption {
+    display: none;
+}
+
+.photo-gallery-caption {
+    font-size: 0.88rem;
+    color: var(--label-color);
+    margin-bottom: 10px;
+    min-height: 1.4em;
+    text-align: center;
+}
+
+.photo-gallery-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.photo-gallery-thumbs li {
+    width: calc((100% - 8px * 6) / 7);
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+    transition: border-color 0.15s;
+}
+
+.photo-gallery-thumbs li.active {
+    border-color: var(--primary-color);
+}
+
+.photo-gallery-thumbs li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 500px) {
+    .photo-gallery-thumbs li {
+        width: calc((100% - 8px * 4) / 5);
+    }
 }
 
 /* 写真リスト */
