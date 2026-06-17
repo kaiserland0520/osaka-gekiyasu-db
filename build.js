@@ -138,6 +138,7 @@ function render(template, shop, content) {
         '{{UPDATE_DATE}}': shop.updateDate,
         '{{IMG}}':         shop.img,
         '{{URL}}':         shop.url,
+        '{{TAGS}}':        (shop.tags || '').split(' ').filter(Boolean).map(t => `<span class="tag">${t}</span>`).join(''),
         // JSONから埋め込む値（ファイルがなければ「準備中」）
         '{{LINKS_TABLE}}': buildLinksTable(content && content.links),
         '{{MAP}}':         buildMap(content && content.mapSrc),

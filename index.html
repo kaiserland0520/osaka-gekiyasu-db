@@ -28,6 +28,7 @@
             <!-- メインコンテンツ -->
             <section class="main-content">
                 <h2>居酒屋一覧(新着順)</h2>
+                <p class="howto-link"><a href="guide/howto.html"><i class="mdi mdi-help-circle-outline"></i> 各項目の見方・選定基準</a></p>
                 <div class="search-box">
                     <i class="mdi mdi-magnify search-icon"></i>
                     <input type="text" id="search-input" placeholder="店名・エリア・特徴で検索..." oninput="filterBySearch(this.value)">
@@ -39,6 +40,20 @@
                 
                 <!-- ページ送りボタン -->
                 <div id="pagination" class="pagination"></div>
+
+                <!-- 共有ボタン -->
+                <div class="share-buttons-area">
+                    <p class="share-label"><i class="mdi mdi-share-variant"></i> このページを共有</p>
+                    <div class="share-buttons">
+                        <a class="share-btn share-x" href="#" onclick="shareX(event)" title="X(Twitter)でシェア"><i class="mdi mdi-twitter"></i><span>X</span></a>
+                        <a class="share-btn share-facebook" href="#" onclick="shareFacebook(event)" title="Facebookでシェア"><i class="mdi mdi-facebook"></i><span>Facebook</span></a>
+                        <a class="share-btn share-line" href="#" onclick="shareLine(event)" title="LINEでシェア"><i class="mdi mdi-chat"></i><span>LINE</span></a>
+                        <a class="share-btn share-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" title="Instagramを開く"><i class="mdi mdi-instagram"></i><span>Instagram</span></a>
+                        <a class="share-btn share-bluesky" href="#" onclick="shareBluesky(event)" title="Blueskyでシェア"><i class="mdi mdi-butterfly"></i><span>Bluesky</span></a>
+                        <a class="share-btn share-threads" href="#" onclick="shareThreads(event)" title="Threadsでシェア"><i class="mdi mdi-at"></i><span>Threads</span></a>
+                        <a class="share-btn share-copy" href="#" onclick="copyUrl(event)" title="URLをコピー"><i class="mdi mdi-link-variant"></i><span>URLをコピー</span></a>
+                    </div>
+                </div>
             </section>
 
             <!-- サイドバー（sidebar.jsにより自動生成） -->

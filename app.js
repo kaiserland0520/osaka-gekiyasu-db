@@ -117,7 +117,9 @@ function renderPage(page) {
         card.innerHTML = `
             <div class="shop-card-main">
                 <div class="shop-image">
-                    <img src="images/${escapeHtml(shop.img)}" alt="${escapeHtml(shop.name)}" loading="lazy">
+                    <a href="${escapeHtml(safeUrl(shop.url))}">
+                        <img src="images/${escapeHtml(shop.img)}" alt="${escapeHtml(shop.name)}" loading="lazy">
+                    </a>
                 </div>
                 <div class="shop-details">
                     <a href="${escapeHtml(safeUrl(shop.url))}" class="shop-title">【${escapeHtml(shop.area)}】${escapeHtml(shop.name)}</a>
@@ -247,3 +249,61 @@ function changePage(page) {
     renderPage(currentPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// ─── 共有ボタン ───────────────────────────────────────────────
+
+function shareX(e) {
+    e.preventDefault();
+    const url = encodeURIComponent(location.href);
+    const text = encodeURIComponent(document.title);
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'noopener,noreferrer');
+}
+
+function shareFacebook(e) {
+    e.preventDefault();
+    const url = encodeURIComponent(location.href);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'noopener,noreferrer');
+}
+
+function shareLine(e) {
+    e.preventDefault();
+    const url = encodeURIComponent(location.href);
+    const text = encodeURIComponent(document.title);
+    window.open(`https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`, '_blank', 'noopener,noreferrer');
+}
+
+function shareBluesky(e) {
+    e.preventDefault();
+    const url = encodeURIComponent(location.href);
+    const text = encodeURIComponent(document.title + ' ' + location.href);
+    window.open(`https://bsky.app/intent/compose?text=${text}`, '_blank', 'noopener,noreferrer');
+}
+
+function shareThreads(e) {
+    e.preventDefault();
+    const url = encodeURIComponent(location.href);
+    window.open(`https://www.threads.net/intent/post?text=${url}`, '_blank', 'noopener,noreferrer');
+}
+
+async function copyUrl(e) {
+    e.preventDefault();
+    try {
+        await navigator.clipboard.writeText(location.href);
+        const btn = e.currentTarget;
+        const span = btn.querySelector('span');
+        const orig = span.textContent;
+        span.textContent = 'コピーしました！';
+        btn.classList.add('copied');
+        setTimeout(() => { span.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    } catch (_) {
+        prompt('以下のURLをコピーしてください', location.href);
+    }
+}
+
+// グローバル公開（HTML の onclick から参照）
+window.shareX = shareX;
+window.shareFacebook = shareFacebook;
+window.shareLine = shareLine;
+window.shareBluesky = shareBluesky;
+window.shareThreads = shareThreads;
+window.copyUrl = copyUrl;

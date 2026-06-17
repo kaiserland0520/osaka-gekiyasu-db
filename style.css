@@ -624,6 +624,67 @@ footer p {
     color: #666;
 }
 
+/* 各項目の見方リンク（検索ボックス上） */
+.howto-link {
+    margin: 0 0 10px 0;
+    font-size: 0.88rem;
+}
+.howto-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.howto-link a:hover {
+    text-decoration: underline;
+}
+
+/* 共有ボタンエリア */
+.share-buttons-area {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+}
+.share-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--label-color);
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    transition: opacity 0.2s, transform 0.1s;
+    cursor: pointer;
+}
+.share-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.share-btn:active { transform: translateY(0); }
+.share-btn i { font-size: 1.1rem; }
+.share-x        { background: #000; }
+.share-facebook { background: #1877f2; }
+.share-line     { background: #06c755; }
+.share-instagram{ background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.share-bluesky  { background: #0085ff; }
+.share-threads  { background: #101010; }
+.share-copy     { background: #555; }
+.share-copy.copied { background: #2a9d5c; }
+
 /* ===== スマホ対応 ===== */
 @media (max-width: 850px) {
     .layout-wrapper {
