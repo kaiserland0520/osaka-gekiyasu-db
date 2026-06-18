@@ -148,13 +148,13 @@ function buildPhotos(photos) {
     }).join('\n');
 
     return `                    <div class="photo-gallery">
-                        <div class="photo-gallery-main" id="photo-main">
-                            <img src="${firstPhoto.src}" alt="${firstPhoto.caption}" id="photo-main-img">
-                        </div>
-                        <p class="photo-gallery-caption" id="photo-main-caption">${firstPhoto.caption}</p>
                         <ul class="photo-gallery-thumbs" id="photo-thumbs">
 ${thumbs}
                         </ul>
+                        <p class="photo-gallery-caption" id="photo-main-caption">${firstPhoto.caption}</p>
+                        <div class="photo-gallery-main" id="photo-main">
+                            <img src="${firstPhoto.src}" alt="${firstPhoto.caption}" id="photo-main-img">
+                        </div>
                     </div>
                     <script>
                     (function() {

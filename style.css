@@ -307,6 +307,7 @@ h2 {
 
 .order-table {
     width: 100%;
+    max-width: 480px;
     border-collapse: collapse;
     font-size: 0.88rem;
     table-layout: fixed;
@@ -321,7 +322,6 @@ h2 {
     border: 1px solid var(--border-color);
     padding: 6px 8px;
     vertical-align: top;
-    word-break: break-word;
 }
 
 .order-table th {
@@ -334,18 +334,20 @@ h2 {
 .order-table td.order-name {
     width: auto;
     text-align: left;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .order-table th.order-price,
 .order-table td.order-price {
-    width: 80px;
+    width: 50px;
     text-align: right;
     white-space: nowrap;
 }
 
 .order-table th.order-qty,
 .order-table td.order-qty {
-    width: 64px;
+    width: 50px;
     text-align: center;
     white-space: nowrap;
 }
@@ -362,11 +364,10 @@ h2 {
 
 .photo-gallery-main {
     width: 100%;
-    aspect-ratio: 4 / 3;
-    background: #000;
+    background: none;
     border-radius: 6px;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -374,9 +375,9 @@ h2 {
 
 .photo-gallery-main img {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
     display: block;
+    border-radius: 6px;
 }
 
 .photo-gallery-main figcaption {
@@ -386,7 +387,7 @@ h2 {
 .photo-gallery-caption {
     font-size: 0.88rem;
     color: var(--label-color);
-    margin-bottom: 10px;
+    margin: 6px 0 0 0;
     min-height: 1.4em;
     text-align: center;
 }
@@ -425,6 +426,10 @@ h2 {
 @media (max-width: 500px) {
     .photo-gallery-thumbs li {
         width: calc((100% - 8px * 4) / 5);
+    }
+
+    .order-table {
+        max-width: none;
     }
 }
 
