@@ -348,7 +348,7 @@ h2 {
 .order-table th.order-qty,
 .order-table td.order-qty {
     width: 50px;
-    text-align: center;
+    text-align: right;
     white-space: nowrap;
 }
 
@@ -389,7 +389,7 @@ h2 {
     color: var(--label-color);
     margin: 6px 0 0 0;
     min-height: 1.4em;
-    text-align: center;
+    text-align: left;
 }
 
 .photo-gallery-thumbs {
@@ -402,7 +402,7 @@ h2 {
 }
 
 .photo-gallery-thumbs li {
-    width: calc((100% - 8px * 6) / 7);
+    width: calc((100% - 8px * 9) / 10);
     aspect-ratio: 1 / 1;
     cursor: pointer;
     border-radius: 4px;
@@ -425,7 +425,7 @@ h2 {
 
 @media (max-width: 500px) {
     .photo-gallery-thumbs li {
-        width: calc((100% - 8px * 4) / 5);
+        width: calc((100% - 8px * 6) / 7);
     }
 
     .order-table {

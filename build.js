@@ -108,7 +108,7 @@ function buildOrders(orders) {
                 const price = priceMatch[2].trim();
                 const qty   = priceMatch[3].replace(/^×/, '').trim();
                 const noteHtml = note ? `<br><span class="order-note">※${note}</span>` : '';
-                const qtyCell  = qty ? `×${qty}` : '1';
+                const qtyCell  = qty || '1';
                 return `                        <tr><td class="order-name">${name}${noteHtml}</td><td class="order-price">${price}</td><td class="order-qty">${qtyCell}</td></tr>`;
             }
             // パターン不一致はそのまま全幅で表示
@@ -121,7 +121,7 @@ function buildOrders(orders) {
                             <thead>
                                 <tr>
                                     <th class="order-name">メニュー</th>
-                                    <th class="order-price">単価</th>
+                                    <th class="order-price">金額(円)</th>
                                     <th class="order-qty">数量</th>
                                 </tr>
                             </thead>

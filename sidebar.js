@@ -62,7 +62,7 @@
                 </p>
                 <ul class="guide-list">
                     <li><a href="${base}guide/about.html"><i class="mdi mdi-chevron-right"></i>このサイトについて</a></li>
-                    <li><a href="${base}guide/howto.html"><i class="mdi mdi-chevron-right"></i>各項目の見方・選定基準</a></li>
+                    <li><a href="${base}guide/howto.html"><i class="mdi mdi-chevron-right"></i>このサイトの使い方・各項目の解説</a></li>
                     <li><a href="${base}guide/tips.html"><i class="mdi mdi-chevron-right"></i>せんべろ・激安居酒屋の楽しみ方</a></li>
                 </ul>
             </div>
