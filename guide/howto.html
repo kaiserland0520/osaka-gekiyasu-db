@@ -3,18 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掲載店舗の選定基準・各項目の見方 - 大阪激安居酒屋データベース</title>
+    <title>このサイトの使い方・各項目の解説 - 大阪激安居酒屋データベース</title>
 
     <!-- OGP（SNSシェア・SEO用） -->
-    <meta name="description" content="お通し・ハッピーアワー・せんべろセット・予算・推奨人数など、掲載店舗の選定基準と各項目の見方を解説します。">
-    <meta property="og:title" content="掲載店舗の選定基準・各項目の見方 - 大阪激安居酒屋データベース">
-    <meta property="og:description" content="お通し・ハッピーアワー・せんべろセット・予算・推奨人数など、掲載店舗の選定基準と各項目の見方を解説します。">
+    <meta name="description" content="検索・タグ絞り込み・エリア検索の使い方と、お通し・ハッピーアワー・せんべろセット・予算・推奨人数・喫煙可否など各項目の見方を解説します。">
+    <meta property="og:title" content="このサイトの使い方・各項目の解説 - 大阪激安居酒屋データベース">
+    <meta property="og:description" content="検索・タグ絞り込み・エリア検索の使い方と、お通し・ハッピーアワー・せんべろセット・予算・推奨人数・喫煙可否など各項目の見方を解説します。">
     <meta property="og:image" content="https://osaka-gekiyasu-db.com/images/ogp.jpg">
     <meta property="og:url" content="https://osaka-gekiyasu-db.com/guide/howto.html">
     <meta property="og:type" content="website">
     <link rel="icon" href="../favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../style.css">
+
+    <style>
+        /* ─── ガイドページ専用スタイル ─────────────────── */
+
+        /* 目次 */
+        .toc {
+            background: #f0f7ff;
+            border: 1px solid #cce0ff;
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-bottom: 36px;
+        }
+        .toc-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+        .toc ol {
+            margin: 0;
+            padding-left: 1.4em;
+        }
+        .toc li {
+            font-size: 0.88rem;
+            line-height: 1.9;
+        }
+        .toc li a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .toc li a:hover {
+            text-decoration: underline;
+        }
+
+        /* セクション区切り */
+        .guide-section {
+            margin-bottom: 48px;
+        }
+        .guide-section h3 {
+            font-size: 1.15rem;
+            margin-top: 0;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0ecff;
+            color: #1a4080;
+        }
+        .guide-section p {
+            margin: 0 0 12px 0;
+            font-size: 0.95rem;
+            line-height: 1.75;
+        }
+
+        /* 画面モックアップ共通 */
+        .mock-wrapper {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 16px 0 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .mock-caption {
+            font-size: 0.82rem;
+            color: #777;
+            margin-top: -12px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        /* 吹き出し（赤い説明ラベル） */
+        .balloon {
+            background: #d00;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* 項目定義テーブル */
+        .def-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .def-table th {
+            background: #f0f5ff;
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            text-align: left;
+            white-space: nowrap;
+            font-weight: bold;
+            color: #1a4080;
+            width: 110px;
+        }
+        .def-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            line-height: 1.6;
+            vertical-align: top;
+        }
+
+        /* 注意ボックス */
+        .note-box {
+            background: #fffbf0;
+            border: 1px solid #f5e6b0;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            margin-top: 12px;
+            color: #6b5100;
+        }
+        .note-box strong {
+            color: #a07800;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -29,13 +148,300 @@
         <div class="layout-wrapper">
             <div class="main-content">
                 <article>
-                    <h2>掲載店舗の選定基準・各項目の見方</h2>
+                    <h2>このサイトの使い方・各項目の解説</h2>
 
-                    <p>お通し・ハッピーアワー・せんべろセット・予算・推奨人数・喫煙可否など、各項目の定義や判断基準を記載予定です。</p>
+                    <p>このページでは、サイトの検索・絞り込み機能の使い方と、各店舗カードに表示されている項目の意味・判断基準を解説します。</p>
 
-                    <div class="disclaimer">
-                        内容は準備中です。
-                    </div>
+                    <!-- 目次 -->
+                    <nav class="toc" aria-label="目次">
+                        <p class="toc-title"><i class="mdi mdi-format-list-bulleted"></i> 目次</p>
+                        <ol>
+                            <li><a href="#search">キーワード検索で絞り込む</a></li>
+                            <li><a href="#tag">タグで絞り込む</a></li>
+                            <li><a href="#area">エリアから探す</a></li>
+                            <li><a href="#otoshi">お通し</a></li>
+                            <li><a href="#happyhour">ハッピーアワー</a></li>
+                            <li><a href="#set">せんべろセット</a></li>
+                            <li><a href="#budget">予算</a></li>
+                            <li><a href="#persons">推奨人数</a></li>
+                            <li><a href="#smoke">喫煙</a></li>
+                            <li><a href="#dates">最終訪問日・最終更新日</a></li>
+                        </ol>
+                    </nav>
+
+
+                    <!-- ① キーワード検索 -->
+                    <section class="guide-section" id="search">
+                        <h3><i class="mdi mdi-magnify"></i> ① キーワード検索で絞り込む</h3>
+                        <p>トップページの検索ボックスに文字を入力すると、<strong>店名・エリア・サブタイトル・タグ</strong>を対象にリアルタイムで絞り込みができます。</p>
+
+                        <!-- モックアップ SVG -->
+                        <div class="mock-wrapper">
+                            <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+                                <!-- 背景 -->
+                                <rect width="680" height="200" fill="#f5f5f5"/>
+                                <!-- 検索ボックス本体 -->
+                                <rect x="30" y="40" width="480" height="44" rx="6" fill="#fff" stroke="#ddd" stroke-width="1.5"/>
+                                <!-- 虫眼鏡アイコン -->
+                                <circle cx="56" cy="62" r="7" fill="none" stroke="#888" stroke-width="2"/>
+                                <line x1="61" y1="67" x2="67" y2="73" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+                                <!-- プレースホルダーテキスト -->
+                                <text x="78" y="67" font-size="13" fill="#aaa" font-family="sans-serif">店名・エリア・特徴で検索...</text>
+
+                                <!-- 赤い枠線 -->
+                                <rect x="25" y="34" width="492" height="56" rx="8" fill="none" stroke="#d00" stroke-width="2.5" stroke-dasharray="0"/>
+
+                                <!-- 吹き出し矢印と説明 -->
+                                <line x1="271" y1="34" x2="271" y2="14" stroke="#d00" stroke-width="1.5"/>
+                                <rect x="180" y="0" width="182" height="20" rx="4" fill="#d00"/>
+                                <text x="271" y="14" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">ここに入力して絞り込む</text>
+
+
+                                <!-- 結果カード（ダミー） -->
+                                <rect x="30" y="110" width="480" height="52" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+                                <rect x="30" y="110" width="52" height="52" fill="#e8e8e8" rx="6 0 0 6"/>
+                                <text x="56" y="140" font-size="10" fill="#bbb" text-anchor="middle" font-family="sans-serif">写真</text>
+                                <rect x="96" y="120" width="160" height="10" rx="3" fill="#c8d8f0"/>
+                                <rect x="96" y="136" width="100" height="8" rx="3" fill="#eee"/>
+                                <rect x="96" y="150" width="80" height="8" rx="3" fill="#eee"/>
+
+                                <!-- 補足テキスト -->
+                                <text x="30" y="185" font-size="11" fill="#777" font-family="sans-serif">※ 入力するたびに即座に結果が更新されます</text>
+                            </svg>
+                        </div>
+                        <p class="mock-caption">▲ 赤枠の検索ボックスに文字を入力すると、即座に一覧が絞り込まれます</p>
+
+                        <p>例えば「梅田」と入力すると梅田エリアの店舗だけが表示されます。「飲み放題」と入力すると、タグに「飲み放題」が含まれる店舗を見つけることもできます。</p>
+                    </section>
+
+
+                    <!-- ② タグ絞り込み -->
+                    <section class="guide-section" id="tag">
+                        <h3><i class="mdi mdi-tag-outline"></i> ② タグで絞り込む</h3>
+                        <p>各店舗カードの下部にタグが表示されています。<strong>タグをクリック/タップすると、同じタグが付いた店舗のみに絞り込む</strong>ことができます。もう一度クリック/タップすると解除されます。</p>
+
+                        <!-- モックアップ SVG -->
+                        <div class="mock-wrapper">
+                            <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+                                <rect width="680" height="220" fill="#f5f5f5"/>
+
+                                <!-- 店舗カード -->
+                                <rect x="30" y="20" width="520" height="130" rx="8" fill="#fff" stroke="#ddd" stroke-width="1.5"/>
+                                <!-- サムネイル -->
+                                <rect x="30" y="20" width="80" height="80" fill="#e0e0e0" rx="8 0 0 0"/>
+                                <text x="70" y="64" font-size="10" fill="#bbb" text-anchor="middle" font-family="sans-serif">写真</text>
+                                <!-- テキスト部 -->
+                                <rect x="126" y="32" width="200" height="12" rx="3" fill="#c8d8f0"/>
+                                <rect x="126" y="52" width="140" height="9" rx="3" fill="#f0c0c0"/>
+                                <rect x="126" y="68" width="100" height="8" rx="3" fill="#eee"/>
+                                <rect x="126" y="82" width="120" height="8" rx="3" fill="#eee"/>
+
+                                <!-- タグ行 -->
+                                <!-- タグ1（アクティブ：濃い青） -->
+                                <rect x="40" y="108" width="72" height="24" rx="12" fill="#0056b3" stroke="#0056b3" stroke-width="1"/>
+                                <text x="76" y="124" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle">飲み放題</text>
+                                <!-- タグ2 -->
+                                <rect x="120" y="108" width="56" height="24" rx="12" fill="#eef6ff" stroke="#d0e4ff" stroke-width="1"/>
+                                <text x="148" y="124" font-size="11" fill="#0056b3" font-family="sans-serif" text-anchor="middle">昼飲み</text>
+                                <!-- タグ3 -->
+                                <rect x="184" y="108" width="72" height="24" rx="12" fill="#eef6ff" stroke="#d0e4ff" stroke-width="1"/>
+                                <text x="220" y="124" font-size="11" fill="#0056b3" font-family="sans-serif" text-anchor="middle">1次会向け</text>
+
+                                <!-- 赤い枠 -->
+                                <rect x="33" y="103" width="236" height="34" rx="8" fill="none" stroke="#d00" stroke-width="2.5"/>
+
+                                <!-- 矢印と吹き出し -->
+                                <line x1="76" y1="103" x2="76" y2="83" stroke="#d00" stroke-width="1.5"/>
+                                <rect x="2" y="64" width="148" height="20" rx="4" fill="#d00"/>
+                                <text x="76" y="78" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">クリック/タップで絞り込み</text>
+
+                                <!-- 絞り込み中バナー -->
+                                <rect x="30" y="164" width="520" height="36" rx="6" fill="#eef6ff" stroke="#d0e4ff" stroke-width="1"/>
+                                <text x="50" y="186" font-size="12" fill="#0056b3" font-family="sans-serif">「飲み放題」で絞り込み中</text>
+                                <rect x="410" y="171" width="70" height="22" rx="11" fill="#fff" stroke="#0056b3" stroke-width="1"/>
+                                <text x="445" y="186" font-size="11" fill="#0056b3" font-family="sans-serif" text-anchor="middle">✕ 解除</text>
+
+                                <!-- 矢印と吹き出し -->
+                                <line x1="445" y1="164" x2="445" y2="144" stroke="#d00" stroke-width="1.5"/>
+                                <rect x="380" y="126" width="130" height="20" rx="4" fill="#d00"/>
+                                <text x="445" y="140" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">ここで解除できます</text>
+                            </svg>
+                        </div>
+                        <p class="mock-caption">▲ タグをクリック/タップすると強調表示になり、同タグの店舗のみに絞り込まれます。解除ボタンで元に戻ります。</p>
+
+                        <p>タグの例：「飲み放題」「お通しなし」「昼飲み」「0次会向け」「1次会向け」「焼鳥」など、店舗の特徴に合わせたタグが付与されています。</p>
+                    </section>
+
+
+                    <!-- ③ エリアから探す -->
+                    <section class="guide-section" id="area">
+                        <h3><i class="mdi mdi-map-marker-outline"></i> ③ エリアから探す</h3>
+                        <p>画面右のサイドバー（スマホでは一覧の下）にある<strong>「エリアから探す」</strong>から、エリアを選んで絞り込むことができます。</p>
+
+                        <!-- モックアップ SVG -->
+                        <div class="mock-wrapper">
+                            <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+                                <rect width="680" height="200" fill="#f5f5f5"/>
+
+                                <!-- サイドバーウィジェット -->
+                                <rect x="390" y="20" width="262" height="160" rx="8" fill="#fff" stroke="#ddd" stroke-width="1.5"/>
+                                <!-- ウィジェットタイトル -->
+                                <rect x="390" y="20" width="262" height="36" rx="8 8 0 0" fill="#f0f5ff"/>
+                                <circle cx="414" cy="38" r="7" fill="none" stroke="#0056b3" stroke-width="1.5"/>
+                                <line x1="419" y1="43" x2="423" y2="47" stroke="#0056b3" stroke-width="1.5" stroke-linecap="round"/>
+                                <text x="430" y="42" font-size="12" fill="#0056b3" font-weight="bold" font-family="sans-serif">エリアから探す</text>
+
+                                <!-- エリアリスト -->
+                                <text x="408" y="72" font-size="11" fill="#555" font-family="sans-serif">› すべて</text>
+                                <text x="408" y="90" font-size="10" fill="#888" font-family="sans-serif" font-weight="bold">大阪</text>
+                                <text x="416" y="108" font-size="11" fill="#0056b3" font-family="sans-serif">› 梅田</text>
+                                <text x="416" y="124" font-size="11" fill="#0056b3" font-family="sans-serif">› 難波</text>
+                                <text x="416" y="140" font-size="11" fill="#0056b3" font-family="sans-serif">› 天満</text>
+                                <text x="416" y="156" font-size="11" fill="#0056b3" font-family="sans-serif">› 京橋</text>
+
+                                <!-- 赤い枠 -->
+                                <rect x="385" y="15" width="272" height="170" rx="10" fill="none" stroke="#d00" stroke-width="2.5"/>
+
+                                <!-- 矢印と吹き出し -->
+                                <line x1="385" y1="100" x2="350" y2="100" stroke="#d00" stroke-width="1.5"/>
+                                <rect x="180" y="86" width="170" height="28" rx="4" fill="#d00"/>
+                                <text x="265" y="100" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">クリック/タップでエリア絞り込み</text>
+
+                                <!-- メインエリア（店舗リスト） -->
+                                <rect x="30" y="20" width="340" height="160" rx="8" fill="#fff" stroke="#ddd" stroke-width="1"/>
+                                <rect x="40" y="32" width="140" height="10" rx="3" fill="#c8d8f0"/>
+                                <rect x="40" y="50" width="100" height="8" rx="3" fill="#eee"/>
+                                <rect x="40" y="65" width="120" height="8" rx="3" fill="#eee"/>
+                                <rect x="40" y="90" width="140" height="10" rx="3" fill="#c8d8f0"/>
+                                <rect x="40" y="108" width="100" height="8" rx="3" fill="#eee"/>
+                                <rect x="40" y="123" width="120" height="8" rx="3" fill="#eee"/>
+                            </svg>
+                        </div>
+                        <p class="mock-caption">▲ サイドバーの「エリアから探す」でエリアをクリック/タップすると、そのエリアの店舗だけが表示されます</p>
+
+                        <p>エリアを選ぶと検索ボックスにエリア名が自動入力され、一覧が絞り込まれます。再度「すべて」を選ぶか、検索ボックスを空にすると全店舗に戻ります。</p>
+                    </section>
+
+
+                    <!-- ④ お通し -->
+                    <section class="guide-section" id="otoshi">
+                        <h3><i class="mdi mdi-silverware-variant"></i> ④ お通し</h3>
+                        <p>入店時に提供される小皿料理（着席料）です。お通しがある店では、注文の有無にかかわらず代金が発生します。</p>
+                        <table class="def-table">
+                            <tbody>
+                                <tr><th>あり</th><td>お通しが提供されます（料金は店舗ページを参照）。</td></tr>
+                                <tr><th>なし</th><td>お通しなし。注文したものだけ払えばOKです。せんべろ目当てなら「なし」の店がお得です。</td></tr>
+                                <tr><th>選択制</th><td>稀なケースですが、お通しの有無を入店時に選べる店舗です。不要であれば断ることができます。</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="note-box">
+                            <strong>ポイント：</strong>お通しなしの店はタグ「お通しなし」でも絞り込めます。
+                        </div>
+                    </section>
+
+
+                    <!-- ⑤ ハッピーアワー -->
+                    <section class="guide-section" id="happyhour">
+                        <h3><i class="mdi mdi-clock-fast"></i> ⑤ ハッピーアワー</h3>
+                        <p>時間帯限定でドリンクが割引・特別価格になるサービスです。うまく活用すれば通常より大幅に安く飲めます。</p>
+                        <table class="def-table">
+                            <tbody>
+                                <tr><th>なし</th><td>ハッピーアワーの設定はありません。</td></tr>
+                                <tr><th>毎日あり</th><td>曜日に関係なく、毎日ハッピーアワーがあります。</td></tr>
+                                <tr><th>平日あり</th><td>平日（月〜金）のみハッピーアワーが適用されます。土日祝は通常価格です。なお、店舗によっては金曜日が対象外となっている場合もあるため、事前にご確認ください。</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="note-box">
+                            <strong>注意：</strong>ハッピーアワーの時間帯・条件は店舗によって異なります。詳細は各店舗ページまたは公式情報をご確認ください。訪問前に変更されている場合もあります。
+                        </div>
+                    </section>
+
+
+                    <!-- ⑥ せんべろセット -->
+                    <section class="guide-section" id="set">
+                        <h3><i class="mdi mdi-food-fork-drink"></i> ⑥ せんべろセット</h3>
+                        <p>「1,000円でべろべろ」を実現するためのお得なセットメニューです。ドリンク数杯＋おつまみがセットになったものが多く、単品注文より割安です。</p>
+                        <table class="def-table">
+                            <tbody>
+                                <tr><th>なし</th><td>セットメニューの設定はありません。</td></tr>
+                                <tr><th>毎日あり</th><td>曜日に関係なくセットを注文できます。</td></tr>
+                                <tr><th>平日あり</th><td>平日（月〜金）のみセットが提供されます。土日祝は通常メニューでの注文となります。なお、店舗によっては金曜日が対象外となっている場合もあるため、事前にご確認ください。</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="note-box">
+                            <strong>注意：</strong>セットの内容・価格・提供時間帯は店舗によって異なります。詳細は各店舗ページまたは公式情報をご確認ください。訪問前に変更されている場合もあります。
+                        </div>
+                    </section>
+
+
+                    <!-- ⑦ 予算 -->
+                    <section class="guide-section" id="budget">
+                        <h3><i class="mdi mdi-currency-jpy"></i> ⑦ 予算</h3>
+                        <p>1人あたりの飲食代の大まかな目安です。<strong>酒2杯＋つまみ2品を注文した場合の1人あたり金額をベース</strong>としており、あくまで店舗間のコスト感を大雑把に比べるための基準です。金額が高い店舗ほど料理・酒の種類や量が充実している傾向があり、1軒でしっかり満足しやすくなります。</p>
+                        <table class="def-table">
+                            <tbody>
+                                <tr><th>1,000円</th><td>せんべろ水準。ハッピーアワーやセット利用で実現できる最安ライン。サクッと1軒目に立ち寄る使い方が向いています。</td></tr>
+                                <tr><th>1,500円</th><td>コスパ優秀ライン。せんべろセットやお得なドリンクをうまく活用すれば届く価格帯。</td></tr>
+                                <tr><th>2,000円</th><td>大衆居酒屋の標準的な価格帯。つまみも充実しており、ここから1軒で完結しやすくなります。</td></tr>
+                                <tr><th>2,500円</th><td>やや高め。料理や酒の質・種類が上がる傾向で、1軒でじっくり楽しめる店が多いです。</td></tr>
+                                <tr><th>3,000円</th><td>このサイト掲載の上限ライン。メニューが豊富で1軒で十分に満足できる店舗が中心です。それ以上の店舗は原則掲載しません。</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="note-box">
+                            <strong>注意：</strong>この予算はあくまで大雑把な目安です。人数・注文内容・ハッピーアワーの有無・飲み放題の利用などによって実際の支払いは大幅に変わります。複数人での利用では1人あたりのコストが下がることもあります。より具体的な金額のイメージは、各店舗ページの「注文例」を参考にしてください。
+                        </div>
+                    </section>
+
+
+                    <!-- ⑧ 推奨人数 -->
+                    <section class="guide-section" id="persons">
+                        <h3><i class="mdi mdi-account-group"></i> ⑧ 推奨人数</h3>
+                        <p>実際に訪問した際の感触をもとに、快適に利用できる人数の目安を記載しています。</p>
+                        <table class="def-table">
+                            <tbody>
+                                <tr><th>1人〜</th><td>カウンター席あり。一人飲みにも対応しています。</td></tr>
+                                <tr><th>2〜4人</th><td>テーブル席中心。少人数グループに向いています。</td></tr>
+                                <tr><th>〜8人</th><td>広めのテーブルやお座敷など、やや大きいグループにも対応可能です。</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="note-box">
+                            <strong>ポイント：</strong>推奨人数の下限に「1」が含まれている店舗はカウンター席がある可能性が高く、一人飲みに向いています。5名以上の大人数利用は、テーブルの空き状況次第で対応できる店が多いですが、事前に予約するか、余裕を持った時間帯に訪問することをおすすめします。
+                        </div>
+                    </section>
+
+
+                    <!-- ⑨ 喫煙 -->
+                    <section class="guide-section" id="smoke">
+                        <h3><i class="mdi mdi-smoking"></i> ⑨ 喫煙</h3>
+                        <p>店内の喫煙可否を記載しています。2020年4月施行の改正健康増進法に基づく区分です。</p>
+                        <table class="def-table">
+                            <tbody>
+                                <tr><th>禁煙</th><td>店内は完全禁煙です。紙巻きたばこ・電子たばこ問わず喫煙できません。</td></tr>
+                                <tr><th>電子可</th><td>紙巻きたばこは禁煙ですが、加熱式たばこ（電子たばこ）は喫煙可能です。</td></tr>
+                                <tr><th>喫煙可</th><td>紙巻きたばこを含む喫煙が可能です（経過措置等で認められている店舗）。</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="note-box">
+                            <strong>注意：</strong>喫煙ルールは法改正や店舗の方針変更によって変わることがあります。喫煙・禁煙に関するご要望が強い方は、事前に店舗へご確認ください。
+                        </div>
+                    </section>
+
+
+                    <!-- ⑩ 最終訪問日・最終更新日 -->
+                    <section class="guide-section" id="dates">
+                        <h3><i class="mdi mdi-calendar-check-outline"></i> ⑩ 最終訪問日・最終更新日</h3>
+                        <p>各店舗カードの下部に2つの日付が表示されています。</p>
+                        <table class="def-table">
+                            <tbody>
+                                <tr><th>最終訪問日</th><td>サイト管理者が実際にその店舗を訪問した最新の日付です。</td></tr>
+                                <tr><th>最終更新日</th><td>掲載情報（価格・営業時間など）を最後に更新した日付です。</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="note-box">
+                            <strong>注意：</strong>居酒屋の価格・営業時間・メニュー内容は予告なく変更されることがあります。訪問前に必ず公式サイトやSNS、食べログ等で最新情報をご確認ください。当サイトの情報はあくまで参考としてお使いください。
+                        </div>
+                    </section>
+
                 </article>
 
                 <div style="margin-top: 30px;">
