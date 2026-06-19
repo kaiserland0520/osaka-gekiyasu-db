@@ -183,11 +183,16 @@
     <script src="../sidebar.js"></script>
     <script src="../nav.js"></script>
     <script>
-        function shareX(e) { e.preventDefault(); window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(document.title), '_blank', 'noopener,noreferrer'); }
-        function shareFacebook(e) { e.preventDefault(); window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank', 'noopener,noreferrer'); }
-        function shareLine(e) { e.preventDefault(); window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(document.title), '_blank', 'noopener,noreferrer'); }
-        function shareBluesky(e) { e.preventDefault(); window.open('https://bsky.app/intent/compose?text=' + encodeURIComponent(document.title + ' ' + location.href), '_blank', 'noopener,noreferrer'); }
-        function shareThreads(e) { e.preventDefault(); window.open('https://www.threads.net/intent/post?text=' + encodeURIComponent(location.href), '_blank', 'noopener,noreferrer'); }
+        function openShareUrl(url) {
+            const a = document.createElement('a');
+            a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+            document.body.appendChild(a); a.click(); a.remove();
+        }
+        function shareX(e) { e.preventDefault(); openShareUrl('https://twitter.com/intent/tweet?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(document.title)); }
+        function shareFacebook(e) { e.preventDefault(); openShareUrl('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href)); }
+        function shareLine(e) { e.preventDefault(); openShareUrl('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(document.title)); }
+        function shareBluesky(e) { e.preventDefault(); openShareUrl('https://bsky.app/intent/compose?text=' + encodeURIComponent(document.title + ' ' + location.href)); }
+        function shareThreads(e) { e.preventDefault(); openShareUrl('https://www.threads.net/intent/post?text=' + encodeURIComponent(location.href)); }
         async function copyUrl(e) {
             e.preventDefault();
             try {
