@@ -55,8 +55,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="${base}guide/tips.html" class="${isActive(base + 'guide/tips.html')}">
-                            <i class="mdi mdi-lightbulb-outline"></i>楽しみ方
+                        <a href="${base}guide/contact.html" class="${isActive(base + 'guide/contact.html')}">
+                            <i class="mdi mdi-email-outline"></i>お問い合わせ
                         </a>
                     </li>
                 </ul>
@@ -75,13 +75,13 @@
                     <button class="nav-mobile-close" id="nav-close" aria-label="メニューを閉じる">&times;</button>
                 </div>
                 <ul class="nav-mobile-links">
-                    <li><a href="${base}index.html"><i class="mdi mdi-home-outline"></i>トップ（すべて）</a></li>
+                    <li><a href="${base}index.html"><i class="mdi mdi-home-outline"></i>トップ(すべて)</a></li>
                     <li><span class="nav-section-label">エリアから探す</span></li>
                     ${buildMobileAreaItems(areaGroups)}
                     <li><span class="nav-section-label">ガイド</span></li>
                     <li><a href="${base}guide/about.html"><i class="mdi mdi-information-outline"></i>このサイトについて</a></li>
                     <li><a href="${base}guide/howto.html"><i class="mdi mdi-help-circle-outline"></i>このサイトの使い方</a></li>
-                    <li><a href="${base}guide/tips.html"><i class="mdi mdi-lightbulb-outline"></i>せんべろの楽しみ方</a></li>
+                    <li><a href="${base}guide/contact.html"><i class="mdi mdi-email-outline"></i>お問い合わせ</a></li>
                 </ul>
             </div>
         `;

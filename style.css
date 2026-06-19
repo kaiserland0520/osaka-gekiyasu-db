@@ -91,14 +91,14 @@ header {
     text-align: center;
 }
 
-/* ヘッダー内のh1（ロゴリンク用） */
+/* ヘッダー内のh1(ロゴリンク用) */
 header h1 {
     margin: 0;
     font-size: 0;    /* テキストが入らないためリセット */
     line-height: 1;
 }
 
-/* トップページのヘッダーサブテキスト（.site-nameには適用しない） */
+/* トップページのヘッダーサブテキスト(.site-nameには適用しない) */
 header p:not(.site-name) {
     margin: 10px 0 0;
     color: var(--label-color);
@@ -127,7 +127,7 @@ header p:not(.site-name) {
     text-decoration: underline;
 }
 
-/* 店舗・ガイドページの記事タイトル（h1） */
+/* 店舗・ガイドページの記事タイトル(h1) */
 .main-content h1 {
     border-left: 5px solid var(--primary-color);
     padding-left: 15px;
@@ -141,10 +141,19 @@ h2 {
     margin-bottom: 30px;
 }
 
-.main-content h3 {
+.section-heading {
+    border-left: none;
+    padding-left: 0;
     margin-top: 30px;
+    margin-bottom: 0;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+.main-content article ul {
+    padding-left: 1.2em;
+    list-style-position: outside;
 }
 
 /* ショップリスト・カード */
@@ -229,6 +238,10 @@ h2 {
 }
 
 /* 料金グリッド */
+.price-grid-detail {
+    margin: 20px 0;
+}
+
 .price-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -282,6 +295,20 @@ h2 {
     max-width: 100%;
     border-collapse: collapse;
     border: 1px solid var(--border-color);
+}
+
+/* Google Map */
+.map-label {
+    margin-top: 15px;
+}
+
+.map-iframe {
+    border: 0;
+}
+
+/* 準備中などのプレースホルダーテキスト */
+.placeholder-text {
+    color: #999;
 }
 
 .shop-info-table th {
@@ -575,6 +602,10 @@ h2 {
     color: #666;
 }
 
+.back-link-wrapper {
+    margin-top: 30px;
+}
+
 footer {
     text-align: center;
     padding: 40px 20px;
@@ -633,11 +664,17 @@ footer p {
 /* エリアリスト */
 .area-list {
     list-style: none;
-    margin: 0;
+    margin: 0 0 15px 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
+}
+
+.area-region-label {
+    margin: 0 0 8px 0;
+    font-size: 0.9rem;
+    color: var(--label-color);
 }
 
 .area-list li a {
@@ -662,7 +699,7 @@ footer p {
     font-size: 1rem;
 }
 
-/* タグクラウド（サイドバー内） */
+/* タグクラウド(サイドバー内) */
 .sidebar-tags {
     display: flex;
     flex-wrap: wrap;
@@ -682,13 +719,21 @@ footer p {
 }
 
 .widget-column {
-    background: #fffbf0;
-    border-color: #f5e6b0;
+    background: #fff5f5;
+    border-color: #f5c6c0;
 }
 
 .widget-column .widget-title {
-    color: #a07800;
-    border-bottom-color: #f5e6b0;
+    color: var(--primary-color);
+    border-bottom-color: #f5c6c0;
+}
+
+.guide-list-column li a {
+    color: var(--primary-color);
+}
+
+.guide-list-column li a:hover {
+    background: #fde2e0;
 }
 
 /* このサイトについてウィジェット */
@@ -700,17 +745,6 @@ footer p {
 .widget-about .widget-title {
     color: var(--primary-color);
     border-bottom-color: #f5c6c0;
-}
-
-/* はじめての方へウィジェット */
-.widget-guide {
-    background: #f0fff4;
-    border-color: #b2e6c8;
-}
-
-.widget-guide .widget-title {
-    color: #1a7a40;
-    border-bottom-color: #b2e6c8;
 }
 
 .guide-list {
@@ -728,7 +762,7 @@ footer p {
     gap: 4px;
     padding: 7px 8px;
     border-radius: 5px;
-    color: #1a7a40;
+    color: var(--primary-color);
     text-decoration: none;
     font-size: 0.88rem;
     font-weight: bold;
@@ -772,7 +806,7 @@ footer p {
     color: #666;
 }
 
-/* 各項目の見方リンク（検索ボックス上） */
+/* 各項目の見方リンク(検索ボックス上) */
 .howto-link {
     margin: 0 0 10px 0;
     font-size: 0.88rem;
@@ -837,6 +871,9 @@ footer p {
 .global-nav {
     background: var(--primary-color);
     border-bottom: 2px solid #8b1a0f;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .global-nav-inner {
@@ -879,7 +916,7 @@ footer p {
     font-size: 1rem;
 }
 
-/* ドロップダウン（エリア） */
+/* ドロップダウン(エリア) */
 .nav-dropdown {
     position: relative;
 }

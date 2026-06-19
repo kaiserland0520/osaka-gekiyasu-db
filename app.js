@@ -7,7 +7,6 @@ const itemsPerPage = 10;
 
 // ─── ユーティリティ ───────────────────────────────────────────
 
-/** HTMLエスケープ（XSS対策） */
 function escapeHtml(str) {
     return String(str == null ? '' : str)
         .replace(/&/g, '&amp;')
@@ -17,10 +16,8 @@ function escapeHtml(str) {
         .replace(/'/g, '&#39;');
 }
 
-/** URLの安全性チェック（javascript: スキーム等を排除） */
 function safeUrl(url) {
     if (!url) return '#';
-    // javascript: / vbscript: などの危険なスキームを拒否、相対パスは通過させる
     if (/^(javascript|vbscript|data):/i.test(url.trim())) return '#';
     return url;
 }
@@ -100,7 +97,6 @@ function renderPage(page) {
     }
 
     pageItems.forEach(shop => {
-        // タグ要素をDOM操作で生成（onclick属性インジェクション対策）
         const tagsContainer = document.createElement('div');
         tagsContainer.className = 'tags-container';
         shop.tags.forEach(tag => {
@@ -111,7 +107,6 @@ function renderPage(page) {
             tagsContainer.appendChild(span);
         });
 
-        // カード本体はエスケープ済みの値のみ埋め込む
         const card = document.createElement('div');
         card.className = 'shop-card';
         card.innerHTML = `
@@ -142,7 +137,6 @@ function renderPage(page) {
             </div>
         `;
 
-        // タグコンテナをカードフッターの先頭に挿入
         const footer = card.querySelector('.shop-card-footer');
         footer.insertBefore(tagsContainer, footer.firstChild);
 
@@ -195,7 +189,6 @@ function renderActiveTagBanner() {
         shopList.parentNode.insertBefore(banner, shopList);
     }
     if (activeTag) {
-        // テキストノードとボタンをDOM操作で生成（XSS対策）
         banner.innerHTML = '';
         const label = document.createElement('span');
         label.textContent = `「${activeTag}」で絞り込み中`;
@@ -217,7 +210,6 @@ function renderPagination() {
     const pagination = document.getElementById('pagination');
     const totalPages = Math.ceil(filteredShops.length / itemsPerPage);
 
-    // DOM操作で生成（onclick属性を避ける）
     pagination.innerHTML = '';
 
     const prevBtn = document.createElement('button');
@@ -300,7 +292,7 @@ async function copyUrl(e) {
     }
 }
 
-// グローバル公開（HTML の onclick から参照）
+// グローバル公開(HTML の onclick から参照)
 window.shareX = shareX;
 window.shareFacebook = shareFacebook;
 window.shareLine = shareLine;

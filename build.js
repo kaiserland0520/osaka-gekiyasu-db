@@ -7,10 +7,10 @@
  * 動作:
  *   1. data.csv を読み込む
  *   2. shops/template.html をテンプレートとして読み込む
- *   3. content/{id}.json があれば固有コンテンツ（トピックス・注文例・写真等）を差し込む
+ *   3. content/{id}.json があれば固有コンテンツ(トピックス・注文例・写真等)を差し込む
  *   4. shops/{id}.html として出力する
  *
- * ディレクトリ構成（前提）:
+ * ディレクトリ構成(前提):
  *   project/
  *   ├── build.js
  *   ├── data.csv
@@ -18,7 +18,7 @@
  *   ├── style.css
  *   ├── app.js
  *   ├── sidebar.js
- *   ├── content/           ← 店舗ごとの固有コンテンツ（JSONファイル）
+ *   ├── content/           ← 店舗ごとの固有コンテンツ(JSONファイル)
  *   │   ├── 001.json
  *   │   ├── 002.json
  *   │   └── ...
@@ -51,43 +51,52 @@ function parseCSV(text) {
 
 // ─── コンテンツHTMLビルダー ───────────────────────────────────
 
+function escapeHtml(str) {
+    return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 /** 店舗リンクテーブルを生成 */
 function buildLinksTable(links) {
     if (!links) {
-        return `<p style="color:#999;">準備中</p>`;
+        return `<p class="placeholder-text">準備中</p>`;
     }
     const rows = [
-        links.hp        ? `                        <tr><th>公式HP</th><td><a href="${links.hp}" target="_blank" rel="noopener noreferrer">公式サイト</a></td></tr>` : '',
-        links.instagram ? `                        <tr><th>Instagram</th><td><a href="${links.instagram}" target="_blank" rel="noopener noreferrer">公式Instagram</a></td></tr>` : '',
-        links.twitter   ? `                        <tr><th>X(Twitter)</th><td><a href="${links.twitter}" target="_blank" rel="noopener noreferrer">公式X(Twitter)</a></td></tr>` : '',
+        links.hp        ? `                        <tr><th>公式HP</th><td><a href="${escapeHtml(links.hp)}" target="_blank" rel="noopener noreferrer">公式サイト</a></td></tr>` : '',
+        links.instagram ? `                        <tr><th>Instagram</th><td><a href="${escapeHtml(links.instagram)}" target="_blank" rel="noopener noreferrer">公式Instagram</a></td></tr>` : '',
+        links.twitter   ? `                        <tr><th>X(Twitter)</th><td><a href="${escapeHtml(links.twitter)}" target="_blank" rel="noopener noreferrer">公式X(Twitter)</a></td></tr>` : '',
     ].filter(Boolean).join('\n');
 
-    if (!rows) return `<p style="color:#999;">準備中</p>`;
+    if (!rows) return `<p class="placeholder-text">準備中</p>`;
     return `<table class="shop-info-table">\n                        <tbody>\n${rows}\n                        </tbody>\n                    </table>`;
 }
 
 /** Google Mapのiframeを生成 */
 function buildMap(mapSrc) {
     if (!mapSrc) {
-        return `<p style="color:#999;">準備中</p>`;
+        return `<p class="placeholder-text">準備中</p>`;
     }
-    return `<iframe src="${mapSrc}" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`;
+    return `<iframe src="${escapeHtml(mapSrc)}" width="100%" height="300" class="map-iframe" allowfullscreen="" loading="lazy" title="店舗の地図"></iframe>`;
 }
 
 
 /** トピックスのul>liを生成 */
 function buildTopics(topics) {
     if (!topics || topics.length === 0) {
-        return `<p style="color:#999;">準備中</p>`;
+        return `<p class="placeholder-text">準備中</p>`;
     }
-    const items = topics.map(t => `                    <li>${t}</li>`).join('\n');
-    return `<ul style="margin-left: 0;">\n${items}\n                    </ul>`;
+    const items = topics.map(t => `                    <li>${escapeHtml(t)}</li>`).join('\n');
+    return `<ul>\n${items}\n                    </ul>`;
 }
 
 /** 注文例のリストを生成 */
 function buildOrders(orders) {
     if (!orders || orders.length === 0) {
-        return `<p style="color:#999;">準備中</p>`;
+        return `<p class="placeholder-text">準備中</p>`;
     }
     const blocks = orders.map(order => {
         // 各アイテムを「商品名(単価)×数量　※備考」の形式でパースしてテーブル行に変換
@@ -96,7 +105,7 @@ function buildOrders(orders) {
         //   "2時間飲み放題(438円)×7人　※LINEクーポン当選価格"
         //   "うずらの醬油漬け(429円)"  ← 数量なし
         const rows = order.items.map(item => {
-            // 備考（全角スペース＋※）を分離
+            // 備考(全角スペース＋※)を分離
             const noteSplit = item.split(/[\u3000\s]※/);
             const main = noteSplit[0].trim();
             const note = noteSplit[1] ? noteSplit[1].trim() : '';
@@ -104,19 +113,19 @@ function buildOrders(orders) {
             // 単価部分 (xxx) を分離
             const priceMatch = main.match(/^(.*?)\(([^)]+)\)(.*)$/);
             if (priceMatch) {
-                const name  = priceMatch[1].trim();
-                const price = priceMatch[2].trim();
+                const name  = escapeHtml(priceMatch[1].trim());
+                const price = escapeHtml(priceMatch[2].trim());
                 const qty   = priceMatch[3].replace(/^×/, '').trim();
-                const noteHtml = note ? `<br><span class="order-note">※${note}</span>` : '';
-                const qtyCell  = qty || '1';
+                const noteHtml = note ? `<br><span class="order-note">※${escapeHtml(note)}</span>` : '';
+                const qtyCell  = escapeHtml(qty || '1');
                 return `                        <tr><td class="order-name">${name}${noteHtml}</td><td class="order-price">${price}</td><td class="order-qty">${qtyCell}</td></tr>`;
             }
             // パターン不一致はそのまま全幅で表示
-            return `                        <tr><td class="order-name" colspan="3">${item}</td></tr>`;
+            return `                        <tr><td class="order-name" colspan="3">${escapeHtml(item)}</td></tr>`;
         }).join('\n');
 
         return `                    <div class="order-block">
-                        <div class="order-total"><span class="price-tag">合計金額：${order.total}</span></div>
+                        <div class="order-total"><span class="price-tag">合計金額：${escapeHtml(order.total)}</span></div>
                         <table class="order-table">
                             <thead>
                                 <tr>
@@ -134,16 +143,16 @@ ${rows}
     return blocks;
 }
 
-/** 写真リストを生成（ギャラリー形式：メイン表示エリア＋サムネイル横並び） */
+/** 写真リストを生成(ギャラリー形式：メイン表示エリア＋サムネイル横並び) */
 function buildPhotos(photos) {
     if (!photos || photos.length === 0) {
-        return `<p style="color:#999;">準備中</p>`;
+        return `<p class="placeholder-text">準備中</p>`;
     }
     const firstPhoto = photos[0];
     const thumbs = photos.map((photo, i) => {
         const activeClass = i === 0 ? ' active' : '';
-        return `                    <li class="${activeClass.trim()}" data-src="${photo.src}" data-caption="${photo.caption}">
-                        <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
+        return `                    <li class="${activeClass.trim()}" data-src="${escapeHtml(photo.src)}" data-caption="${escapeHtml(photo.caption)}">
+                        <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.caption)}" loading="lazy">
                     </li>`;
     }).join('\n');
 
@@ -151,9 +160,9 @@ function buildPhotos(photos) {
                         <ul class="photo-gallery-thumbs" id="photo-thumbs">
 ${thumbs}
                         </ul>
-                        <p class="photo-gallery-caption" id="photo-main-caption">${firstPhoto.caption}</p>
+                        <p class="photo-gallery-caption" id="photo-main-caption">${escapeHtml(firstPhoto.caption)}</p>
                         <div class="photo-gallery-main" id="photo-main">
-                            <img src="${firstPhoto.src}" alt="${firstPhoto.caption}" id="photo-main-img">
+                            <img src="${escapeHtml(firstPhoto.src)}" alt="${escapeHtml(firstPhoto.caption)}" id="photo-main-img">
                         </div>
                     </div>
                     <script>
@@ -182,24 +191,24 @@ function render(template, shop, content) {
 
     // CSVから埋め込む値
     const replacements = {
-        '{{ID}}':          shop.id,
-        '{{FULL_NAME}}':   fullName,
-        '{{AREA}}':        shop.area,
-        '{{AREA_SHORT}}':  areaShort,
-        '{{NAME}}':        shop.name,
-        '{{SUBTITLE}}':    shop.subtitle,
-        '{{OTOSHI}}':      shop.otoshi,
-        '{{HAPPYHOUR}}':   shop.happyhour,
-        '{{SET}}':         shop.set,
-        '{{BUDGET}}':      shop.budget,
-        '{{PERSONS}}':     shop.persons,
-        '{{SMOKE}}':       shop.smoke,
-        '{{VISIT_DATE}}':  shop.visitDate,
-        '{{UPDATE_DATE}}': shop.updateDate,
-        '{{IMG}}':         shop.img,
-        '{{URL}}':         shop.url,
-        '{{TAGS}}':        (shop.tags || '').split(' ').filter(Boolean).map(t => `<span class="tag">${t}</span>`).join(''),
-        // JSONから埋め込む値（ファイルがなければ「準備中」）
+        '{{ID}}':          escapeHtml(shop.id),
+        '{{FULL_NAME}}':   escapeHtml(fullName),
+        '{{AREA}}':        escapeHtml(shop.area),
+        '{{AREA_SHORT}}':  escapeHtml(areaShort),
+        '{{NAME}}':        escapeHtml(shop.name),
+        '{{SUBTITLE}}':    escapeHtml(shop.subtitle),
+        '{{OTOSHI}}':      escapeHtml(shop.otoshi),
+        '{{HAPPYHOUR}}':   escapeHtml(shop.happyhour),
+        '{{SET}}':         escapeHtml(shop.set),
+        '{{BUDGET}}':      escapeHtml(shop.budget),
+        '{{PERSONS}}':     escapeHtml(shop.persons),
+        '{{SMOKE}}':       escapeHtml(shop.smoke),
+        '{{VISIT_DATE}}':  escapeHtml(shop.visitDate),
+        '{{UPDATE_DATE}}': escapeHtml(shop.updateDate),
+        '{{IMG}}':         escapeHtml(shop.img),
+        '{{URL}}':         escapeHtml(shop.url),
+        '{{TAGS}}':        (shop.tags || '').split(' ').filter(Boolean).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join(''),
+        // JSONから埋め込む値(ファイルがなければ「準備中」)
         '{{LINKS_TABLE}}': buildLinksTable(content && content.links),
         '{{MAP}}':         buildMap(content && content.mapSrc),
         '{{TOPICS}}':      buildTopics(content && content.topics),

@@ -4,7 +4,7 @@
  * <aside class="sidebar" id="common-sidebar"></aside> を配置したページで動作します。
  */
 (function () {
-    // ルートパスの基準（index.htmlは"./"、shops/XXX.html・guide/XXX.htmlは"../"）
+    // ルートパスの基準(index.htmlは"./"、shops/XXX.html・guide/XXX.htmlは"../")
     const base = (function () {
         const path = location.pathname;
         // サブディレクトリ以下のページなら一段上へ
@@ -13,7 +13,7 @@
     })();
 
     /**
-     * エリア文字列（例: "大阪/梅田", "北海道/旭川"）から
+     * エリア文字列(例: "大阪/梅田", "北海道/旭川")から
      * 地方グループ → エリア名 の構造に変換する
      * 返り値: { "大阪": ["梅田", "難波", ...], "北海道": ["旭川"] }
      */
@@ -36,13 +36,13 @@
 
     function buildAreaLinks(groups) {
         let html = `
-            <ul class="area-list" style="margin-bottom: 15px;">
-                <li><a href="${base}index.html"><i class="mdi mdi-chevron-right"></i>すべて</a></li>
+            <ul class="area-list">
+                <li><a href="${base}index.html"><i class="mdi mdi-view-list"></i>すべて</a></li>
             </ul>
         `;
         Object.keys(groups).forEach(region => {
-            html += `<h4 style="margin: 0 0 8px 0; font-size: 0.9rem; color: var(--label-color);">${region}</h4>`;
-            html += `<ul class="area-list" style="margin-bottom: 15px;">`;
+            html += `<h4 class="area-region-label">${region}</h4>`;
+            html += `<ul class="area-list">`;
             groups[region].forEach(area => {
                 const query = encodeURIComponent(area);
                 html += `<li><a href="${base}index.html?area=${query}"><i class="mdi mdi-chevron-right"></i>${area}</a></li>`;
@@ -54,17 +54,23 @@
 
     function buildSidebar(shopCount, areaLinksHtml) {
         return `
-            <div class="sidebar-widget widget-guide">
-                <h3 class="widget-title"><i class="mdi mdi-help-circle-outline"></i> はじめての方へ</h3>
+            <div class="sidebar-widget widget-about">
+                <h3 class="widget-title"><i class="mdi mdi-information-outline"></i> このサイトについて</h3>
                 <p class="column-text">
-                    このサイトは、大阪を中心とした激安居酒屋やコストパフォーマンスに優れた居酒屋を実際に足を運んで紹介するデータベースサイトです。
-                    初めてご覧の方は、ぜひ以下のガイドをご一読ください。
+                    大阪を中心に、実際に足を運んで確認した激安居酒屋やコストパフォーマンスに優れた居酒屋をまとめているデータベースサイトです。
+                    情報は随時更新中。お気に入りの店を見つけてください！
                 </p>
                 <ul class="guide-list">
                     <li><a href="${base}guide/about.html"><i class="mdi mdi-chevron-right"></i>このサイトについて</a></li>
                     <li><a href="${base}guide/howto.html"><i class="mdi mdi-chevron-right"></i>このサイトの使い方・各項目の解説</a></li>
-                    <li><a href="${base}guide/tips.html"><i class="mdi mdi-chevron-right"></i>せんべろ・激安居酒屋の楽しみ方</a></li>
+                    <li><a href="${base}guide/contact.html"><i class="mdi mdi-chevron-right"></i>お問い合わせ</a></li>
                 </ul>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <span class="stat-num" id="total-count">${shopCount !== null ? shopCount : '—'}</span>
+                        <span class="stat-label">掲載店舗数</span>
+                    </div>
+                </div>
             </div>
 
             <div class="sidebar-widget">
@@ -73,28 +79,19 @@
             </div>
 
             <div class="sidebar-widget widget-column">
-                <h3 class="widget-title"><i class="mdi mdi-lightbulb-outline"></i> せんべろ豆知識</h3>
+                <h3 class="widget-title"><i class="mdi mdi-lightbulb-outline"></i> 安く飲むための豆知識</h3>
                 <p class="column-text">
                     「せんべろ」とは、1,000円でべろべろに酔える飲み屋のこと。
-                    大阪は全国でも屈指のせんべろ天国で、天満・新世界・京橋などのディープなエリアに名店が集中しています。
                 </p>
                 <p class="column-text">
-                    ハッピーアワーをうまく使えば、さらにお得に楽しめますよ！
+                    「ハッピーアワー」は開店直後や夕方など特定の時間帯にドリンクやフードが割引・お得になるサービス。
                 </p>
-            </div>
-
-            <div class="sidebar-widget widget-about">
-                <h3 class="widget-title"><i class="mdi mdi-information-outline"></i> このサイトについて</h3>
                 <p class="column-text">
-                    大阪を中心に、実際に足を運んで確認した激安居酒屋やコストパフォーマンスに優れた居酒屋をまとめているデータベースサイトです。
-                    情報は随時更新中。お気に入りの店を見つけてください！
+                    「立ち飲み」は椅子のない立ったまま飲むスタイルの店で、その分価格が安く回転も早いのが特徴。
                 </p>
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <span class="stat-num" id="total-count">${shopCount !== null ? shopCount : '—'}</span>
-                        <span class="stat-label">掲載店舗数</span>
-                    </div>
-                </div>
+                <ul class="guide-list guide-list-column">
+                    <li><a href="${base}guide/tips.html"><i class="mdi mdi-chevron-right"></i>せんべろ・激安居酒屋の楽しみ方</a></li>
+                </ul>
             </div>
         `;
     }
@@ -110,7 +107,7 @@
                 const lines = csv.trim().split('\n');
                 const count = lines.length - 1; // ヘッダー除く
 
-                // 簡易パース（area列 = index 1）
+                // 簡易パース(area列 = index 1)
                 const shops = lines.slice(1).map(line => {
                     const parts = line.split(',');
                     return { area: parts[1] || '' };
@@ -123,7 +120,7 @@
             .catch(() => {
                 sidebar.innerHTML = buildSidebar(null, `
                     <ul class="area-list">
-                        <li><a href="${base}index.html"><i class="mdi mdi-chevron-right"></i>すべて</a></li>
+                        <li><a href="${base}index.html"><i class="mdi mdi-view-list"></i>すべて</a></li>
                     </ul>
                 `);
             });
