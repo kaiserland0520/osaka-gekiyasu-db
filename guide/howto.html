@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>このサイトの使い方・各項目の解説 - 大阪激安居酒屋データベース</title>
 
-    <!-- OGP（SNSシェア・SEO用） -->
+    <!-- OGP(SNSシェア・SEO用) -->
     <meta name="description" content="検索・タグ絞り込み・エリア検索の使い方と、お通し・ハッピーアワー・せんべろセット・予算・推奨人数・喫煙可否など各項目の見方を解説します。">
     <meta property="og:title" content="このサイトの使い方・各項目の解説 - 大阪激安居酒屋データベース">
     <meta property="og:description" content="検索・タグ絞り込み・エリア検索の使い方と、お通し・ハッピーアワー・せんべろセット・予算・推奨人数・喫煙可否など各項目の見方を解説します。">
@@ -76,6 +76,10 @@
             margin: 16px 0 20px 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.07);
         }
+        .mock-svg {
+            width: 100%;
+            display: block;
+        }
         .mock-caption {
             font-size: 0.82rem;
             color: #777;
@@ -84,7 +88,7 @@
             text-align: center;
         }
 
-        /* 吹き出し（赤い説明ラベル） */
+        /* 吹き出し(赤い説明ラベル) */
         .balloon {
             background: #d00;
             color: #fff;
@@ -136,6 +140,8 @@
     </style>
 </head>
 <body>
+    <nav class="global-nav" id="global-nav"></nav>
+
     <header>
         <div class="header-content">
             <p class="site-name">
@@ -146,8 +152,6 @@
             <p class="site-desc">大阪を中心に激安居酒屋やコストパフォーマンスに優れた居酒屋をまとめています</p>
         </div>
     </header>
-
-    <nav class="global-nav" id="global-nav"></nav>
 
     <main class="container">
         <div class="layout-wrapper">
@@ -182,7 +186,7 @@
 
                         <!-- モックアップ SVG -->
                         <div class="mock-wrapper">
-                            <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+                            <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" class="mock-svg">
                                 <!-- 背景 -->
                                 <rect width="680" height="200" fill="#f5f5f5"/>
                                 <!-- 検索ボックス本体 -->
@@ -202,7 +206,7 @@
                                 <text x="271" y="14" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">ここに入力して絞り込む</text>
 
 
-                                <!-- 結果カード（ダミー） -->
+                                <!-- 結果カード(ダミー) -->
                                 <rect x="30" y="110" width="480" height="52" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
                                 <rect x="30" y="110" width="52" height="52" fill="#e8e8e8" rx="6 0 0 6"/>
                                 <text x="56" y="140" font-size="10" fill="#bbb" text-anchor="middle" font-family="sans-serif">写真</text>
@@ -227,7 +231,7 @@
 
                         <!-- モックアップ SVG -->
                         <div class="mock-wrapper">
-                            <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+                            <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" class="mock-svg">
                                 <rect width="680" height="220" fill="#f5f5f5"/>
 
                                 <!-- 店舗カード -->
@@ -242,7 +246,7 @@
                                 <rect x="126" y="82" width="120" height="8" rx="3" fill="#eee"/>
 
                                 <!-- タグ行 -->
-                                <!-- タグ1（アクティブ：濃い青） -->
+                                <!-- タグ1(アクティブ：濃い青) -->
                                 <rect x="40" y="108" width="72" height="24" rx="12" fill="#c0392b" stroke="#c0392b" stroke-width="1"/>
                                 <text x="76" y="124" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle">飲み放題</text>
                                 <!-- タグ2 -->
@@ -281,60 +285,53 @@
                     <!-- ③ エリアから探す -->
                     <section class="guide-section" id="area">
                         <h3><i class="mdi mdi-map-marker-outline"></i> ③ エリアから探す</h3>
-                        <p>画面右のサイドバー（スマホでは一覧の下）にある<strong>「エリアから探す」</strong>から、エリアを選んで絞り込むことができます。</p>
+                        <p>画面上部の赤いメニューバーにある<strong>「エリアから探す」</strong>をクリック/タップすると、エリアの一覧が表示され、選んで絞り込むことができます。</p>
 
                         <!-- モックアップ SVG -->
                         <div class="mock-wrapper">
-                            <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
-                                <rect width="680" height="200" fill="#f5f5f5"/>
+                            <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" class="mock-svg">
+                                <rect width="680" height="220" fill="#f5f5f5"/>
 
-                                <!-- サイドバーウィジェット -->
-                                <rect x="390" y="20" width="262" height="160" rx="8" fill="#fff" stroke="#ddd" stroke-width="1.5"/>
-                                <!-- ウィジェットタイトル -->
-                                <rect x="390" y="20" width="262" height="36" rx="8 8 0 0" fill="#fdf0f0"/>
-                                <circle cx="414" cy="38" r="7" fill="none" stroke="#c0392b" stroke-width="1.5"/>
-                                <line x1="419" y1="43" x2="423" y2="47" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round"/>
-                                <text x="430" y="42" font-size="12" fill="#c0392b" font-weight="bold" font-family="sans-serif">エリアから探す</text>
+                                <!-- 赤いヘッダーメニューバー -->
+                                <rect x="0" y="0" width="680" height="40" fill="#c0392b"/>
+                                <text x="20" y="25" font-size="12" fill="#fff" font-family="sans-serif">トップ</text>
+                                <text x="100" y="25" font-size="12" fill="#fff" font-weight="bold" font-family="sans-serif">エリアから探す ▾</text>
+                                <text x="250" y="25" font-size="12" fill="rgba(255,255,255,0.85)" font-family="sans-serif">このサイトについて</text>
+                                <text x="400" y="25" font-size="12" fill="rgba(255,255,255,0.85)" font-family="sans-serif">使い方</text>
 
-                                <!-- エリアリスト -->
-                                <text x="408" y="72" font-size="11" fill="#555" font-family="sans-serif">› すべて</text>
-                                <text x="408" y="90" font-size="10" fill="#888" font-family="sans-serif" font-weight="bold">大阪</text>
-                                <text x="416" y="108" font-size="11" fill="#c0392b" font-family="sans-serif">› 梅田</text>
-                                <text x="416" y="124" font-size="11" fill="#c0392b" font-family="sans-serif">› 難波</text>
-                                <text x="416" y="140" font-size="11" fill="#c0392b" font-family="sans-serif">› 天満</text>
-                                <text x="416" y="156" font-size="11" fill="#c0392b" font-family="sans-serif">› 京橋</text>
+                                <!-- ドロップダウンメニュー -->
+                                <rect x="92" y="40" width="160" height="150" fill="#fff" stroke="#ddd" stroke-width="1.5" stroke-dasharray="0"/>
+                                <rect x="92" y="40" width="160" height="150" rx="0 0 6 6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+
+                                <text x="108" y="62" font-size="11" fill="#555" font-family="sans-serif">すべて</text>
+                                <text x="108" y="84" font-size="10" fill="#888" font-weight="bold" font-family="sans-serif">大阪</text>
+                                <text x="116" y="104" font-size="11" fill="#c0392b" font-family="sans-serif">› 梅田</text>
+                                <text x="116" y="124" font-size="11" fill="#c0392b" font-family="sans-serif">› 難波</text>
+                                <text x="116" y="144" font-size="11" fill="#c0392b" font-family="sans-serif">› 天満</text>
+                                <text x="116" y="164" font-size="11" fill="#c0392b" font-family="sans-serif">› 京橋</text>
 
                                 <!-- 赤い枠 -->
-                                <rect x="385" y="15" width="272" height="170" rx="10" fill="none" stroke="#d00" stroke-width="2.5"/>
+                                <rect x="86" y="34" width="172" height="162" rx="6" fill="none" stroke="#d00" stroke-width="2.5"/>
 
                                 <!-- 矢印と吹き出し -->
-                                <line x1="385" y1="100" x2="350" y2="100" stroke="#d00" stroke-width="1.5"/>
-                                <rect x="180" y="86" width="170" height="28" rx="4" fill="#d00"/>
-                                <text x="265" y="100" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">クリック/タップでエリア絞り込み</text>
-
-                                <!-- メインエリア（店舗リスト） -->
-                                <rect x="30" y="20" width="340" height="160" rx="8" fill="#fff" stroke="#ddd" stroke-width="1"/>
-                                <rect x="40" y="32" width="140" height="10" rx="3" fill="#f5c0bc"/>
-                                <rect x="40" y="50" width="100" height="8" rx="3" fill="#eee"/>
-                                <rect x="40" y="65" width="120" height="8" rx="3" fill="#eee"/>
-                                <rect x="40" y="90" width="140" height="10" rx="3" fill="#f5c0bc"/>
-                                <rect x="40" y="108" width="100" height="8" rx="3" fill="#eee"/>
-                                <rect x="40" y="123" width="120" height="8" rx="3" fill="#eee"/>
+                                <line x1="258" y1="110" x2="300" y2="110" stroke="#d00" stroke-width="1.5"/>
+                                <rect x="300" y="96" width="170" height="28" rx="4" fill="#d00"/>
+                                <text x="385" y="110" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">クリック/タップでエリア絞り込み</text>
                             </svg>
                         </div>
-                        <p class="mock-caption">▲ サイドバーの「エリアから探す」でエリアをクリック/タップすると、そのエリアの店舗だけが表示されます</p>
+                        <p class="mock-caption">▲ ヘッダーの「エリアから探す」でエリアをクリック/タップすると、そのエリアの店舗だけが表示されます</p>
 
-                        <p>エリアを選ぶと検索ボックスにエリア名が自動入力され、一覧が絞り込まれます。再度「すべて」を選ぶか、検索ボックスを空にすると全店舗に戻ります。</p>
+                        <p>エリアを選ぶと検索ボックスにエリア名が自動入力され、一覧が絞り込まれます。再度「すべて」を選ぶか、検索ボックスを空にすると全店舗に戻ります。なお、スマホ表示では右上のメニュー(ハンバーガーアイコン)を開くと同様にエリア一覧が表示されます。</p>
                     </section>
 
 
                     <!-- ④ お通し -->
                     <section class="guide-section" id="otoshi">
                         <h3><i class="mdi mdi-silverware-variant"></i> ④ お通し</h3>
-                        <p>入店時に提供される小皿料理（着席料）です。お通しがある店では、注文の有無にかかわらず代金が発生します。</p>
+                        <p>入店時に提供される小皿料理(着席料)です。お通しがある店では、注文の有無にかかわらず代金が発生します。</p>
                         <table class="def-table">
                             <tbody>
-                                <tr><th>あり</th><td>お通しが提供されます（料金は店舗ページを参照）。</td></tr>
+                                <tr><th>あり</th><td>お通しが提供されます(料金は店舗ページを参照)。</td></tr>
                                 <tr><th>なし</th><td>お通しなし。注文したものだけ払えばOKです。せんべろ目当てなら「なし」の店がお得です。</td></tr>
                                 <tr><th>選択制</th><td>稀なケースですが、お通しの有無を入店時に選べる店舗です。不要であれば断ることができます。</td></tr>
                             </tbody>
@@ -353,7 +350,7 @@
                             <tbody>
                                 <tr><th>なし</th><td>ハッピーアワーの設定はありません。</td></tr>
                                 <tr><th>毎日あり</th><td>曜日に関係なく、毎日ハッピーアワーがあります。</td></tr>
-                                <tr><th>平日あり</th><td>平日（月〜金）のみハッピーアワーが適用されます。土日祝は通常価格です。なお、店舗によっては金曜日が対象外となっている場合もあるため、事前にご確認ください。</td></tr>
+                                <tr><th>平日あり</th><td>平日(月〜金)のみハッピーアワーが適用されます。土日祝は通常価格です。なお、店舗によっては金曜日が対象外となっている場合もあるため、事前にご確認ください。</td></tr>
                             </tbody>
                         </table>
                         <div class="note-box">
@@ -370,7 +367,7 @@
                             <tbody>
                                 <tr><th>なし</th><td>セットメニューの設定はありません。</td></tr>
                                 <tr><th>毎日あり</th><td>曜日に関係なくセットを注文できます。</td></tr>
-                                <tr><th>平日あり</th><td>平日（月〜金）のみセットが提供されます。土日祝は通常メニューでの注文となります。なお、店舗によっては金曜日が対象外となっている場合もあるため、事前にご確認ください。</td></tr>
+                                <tr><th>平日あり</th><td>平日(月〜金)のみセットが提供されます。土日祝は通常メニューでの注文となります。なお、店舗によっては金曜日が対象外となっている場合もあるため、事前にご確認ください。</td></tr>
                             </tbody>
                         </table>
                         <div class="note-box">
@@ -422,8 +419,8 @@
                         <table class="def-table">
                             <tbody>
                                 <tr><th>禁煙</th><td>店内は完全禁煙です。紙巻きたばこ・電子たばこ問わず喫煙できません。</td></tr>
-                                <tr><th>電子可</th><td>紙巻きたばこは禁煙ですが、加熱式たばこ（電子たばこ）は喫煙可能です。</td></tr>
-                                <tr><th>喫煙可</th><td>紙巻きたばこを含む喫煙が可能です（経過措置等で認められている店舗）。</td></tr>
+                                <tr><th>電子可</th><td>紙巻きたばこは禁煙ですが、加熱式たばこ(電子たばこ)は喫煙可能です。</td></tr>
+                                <tr><th>喫煙可</th><td>紙巻きたばこを含む喫煙が可能です(経過措置等で認められている店舗)。</td></tr>
                             </tbody>
                         </table>
                         <div class="note-box">
@@ -439,17 +436,17 @@
                         <table class="def-table">
                             <tbody>
                                 <tr><th>最終訪問日</th><td>サイト管理者が実際にその店舗を訪問した最新の日付です。</td></tr>
-                                <tr><th>最終更新日</th><td>掲載情報（価格・営業時間など）を最後に更新した日付です。</td></tr>
+                                <tr><th>最終更新日</th><td>掲載情報(価格・営業時間など)を最後に更新した日付です。</td></tr>
                             </tbody>
                         </table>
                         <div class="note-box">
-                            <strong>注意：</strong>居酒屋の価格・営業時間・メニュー内容は予告なく変更されることがあります。訪問前に必ず公式サイトやSNS、食べログ等で最新情報をご確認ください。当サイトの情報はあくまで参考としてお使いください。
+                            <strong>注意：</strong>居酒屋の価格・営業時間・メニュー内容は予告なく変更されることがあります。訪問前に必ず公式サイトやSNS等で最新情報をご確認ください。当サイトの情報はあくまで参考としてお使いください。
                         </div>
                     </section>
 
                 </article>
 
-                <div style="margin-top: 30px;">
+                <div class="back-link-wrapper">
                     <a href="../index.html" class="page-btn">← トップページへ戻る</a>
                 </div>
             </div>
