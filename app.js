@@ -244,37 +244,47 @@ function changePage(page) {
 
 // ─── 共有ボタン ───────────────────────────────────────────────
 
+function openShareUrl(url) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+}
+
 function shareX(e) {
     e.preventDefault();
     const url = encodeURIComponent(location.href);
     const text = encodeURIComponent(document.title);
-    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'noopener,noreferrer');
+    openShareUrl(`https://twitter.com/intent/tweet?url=${url}&text=${text}`);
 }
 
 function shareFacebook(e) {
     e.preventDefault();
     const url = encodeURIComponent(location.href);
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'noopener,noreferrer');
+    openShareUrl(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
 }
 
 function shareLine(e) {
     e.preventDefault();
     const url = encodeURIComponent(location.href);
     const text = encodeURIComponent(document.title);
-    window.open(`https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`, '_blank', 'noopener,noreferrer');
+    openShareUrl(`https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`);
 }
 
 function shareBluesky(e) {
     e.preventDefault();
     const url = encodeURIComponent(location.href);
     const text = encodeURIComponent(document.title + ' ' + location.href);
-    window.open(`https://bsky.app/intent/compose?text=${text}`, '_blank', 'noopener,noreferrer');
+    openShareUrl(`https://bsky.app/intent/compose?text=${text}`);
 }
 
 function shareThreads(e) {
     e.preventDefault();
     const url = encodeURIComponent(location.href);
-    window.open(`https://www.threads.net/intent/post?text=${url}`, '_blank', 'noopener,noreferrer');
+    openShareUrl(`https://www.threads.net/intent/post?text=${url}`);
 }
 
 async function copyUrl(e) {

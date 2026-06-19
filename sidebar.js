@@ -93,7 +93,26 @@
                     <li><a href="${base}guide/tips.html"><i class="mdi mdi-chevron-right"></i>せんべろ・激安居酒屋の楽しみ方</a></li>
                 </ul>
             </div>
+
+            <div class="sidebar-widget widget-twitter">
+                <h3 class="widget-title"><i class="mdi mdi-twitter"></i> 最新ツイート</h3>
+                <a class="twitter-timeline" data-height="400" data-theme="light" href="https://twitter.com/x_kaiserland_x?ref_src=twsrc%5Etfw">Tweets by @x_kaiserland_x</a>
+            </div>
         `;
+    }
+
+    // Twitter(X)埋め込みウィジェット用スクリプトを読み込み、タイムラインを描画する
+    function loadTwitterTimeline() {
+        if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load();
+            return;
+        }
+        if (document.getElementById('twitter-wjs')) return;
+        const script = document.createElement('script');
+        script.id = 'twitter-wjs';
+        script.src = 'https://platform.twitter.com/widgets.js';
+        script.async = true;
+        document.body.appendChild(script);
     }
 
     function init() {
@@ -116,6 +135,7 @@
                 const groups = groupAreas(shops);
                 const areaLinksHtml = buildAreaLinks(groups);
                 sidebar.innerHTML = buildSidebar(count, areaLinksHtml);
+                loadTwitterTimeline();
             })
             .catch(() => {
                 sidebar.innerHTML = buildSidebar(null, `
@@ -123,6 +143,7 @@
                         <li><a href="${base}index.html"><i class="mdi mdi-view-list"></i>すべて</a></li>
                     </ul>
                 `);
+                loadTwitterTimeline();
             });
     }
 

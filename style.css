@@ -283,13 +283,6 @@ h2 {
 }
 
 /* 店舗情報のテーブル */
-.shop-info-table-wrapper {
-    list-style: none !important;
-    margin-bottom: 15px;
-    margin-left: 0;
-    padding-left: 0;
-}
-
 .shop-info-table {
     width: 300px;
     max-width: 100%;
@@ -643,6 +636,10 @@ footer p {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 18px;
+}
+
+.widget-twitter iframe {
+    max-width: 100%;
 }
 
 .widget-title {

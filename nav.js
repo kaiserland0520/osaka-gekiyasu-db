@@ -75,7 +75,7 @@
                     <button class="nav-mobile-close" id="nav-close" aria-label="メニューを閉じる">&times;</button>
                 </div>
                 <ul class="nav-mobile-links">
-                    <li><a href="${base}index.html"><i class="mdi mdi-home-outline"></i>トップ(すべて)</a></li>
+                    <li><a href="${base}index.html"><i class="mdi mdi-home-outline"></i>トップ</a></li>
                     <li><span class="nav-section-label">エリアから探す</span></li>
                     ${buildMobileAreaItems(areaGroups)}
                     <li><span class="nav-section-label">ガイド</span></li>
