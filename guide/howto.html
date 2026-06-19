@@ -21,8 +21,8 @@
 
         /* 目次 */
         .toc {
-            background: #f0f7ff;
-            border: 1px solid #cce0ff;
+            background: #fff5f5;
+            border: 1px solid #f5c6c0;
             border-radius: 8px;
             padding: 18px 22px;
             margin-bottom: 36px;
@@ -59,7 +59,7 @@
             margin-bottom: 14px;
             padding-bottom: 8px;
             border-bottom: 2px solid #e0ecff;
-            color: #1a4080;
+            color: #8b1a0f;
         }
         .guide-section p {
             margin: 0 0 12px 0;
@@ -103,13 +103,13 @@
             margin-bottom: 10px;
         }
         .def-table th {
-            background: #f0f5ff;
+            background: #fdf0f0;
             border: 1px solid var(--border-color);
             padding: 8px 12px;
             text-align: left;
             white-space: nowrap;
             font-weight: bold;
-            color: #1a4080;
+            color: #8b1a0f;
             width: 110px;
         }
         .def-table td {
@@ -137,12 +137,17 @@
 </head>
 <body>
     <header>
-        <p class="site-name">
-            <a href="../index.html">
-                <img src="../header-logo.png" alt="大阪激安居酒屋データベース" class="header-logo">
-            </a>
-        </p>
+        <div class="header-content">
+            <p class="site-name">
+                <a href="../index.html">
+                    <img src="../header-logo.png" alt="大阪激安居酒屋データベース" class="header-logo">
+                </a>
+            </p>
+            <p class="site-desc">大阪を中心に激安居酒屋やコストパフォーマンスに優れた居酒屋をまとめています</p>
+        </div>
     </header>
+
+    <nav class="global-nav" id="global-nav"></nav>
 
     <main class="container">
         <div class="layout-wrapper">
@@ -201,7 +206,7 @@
                                 <rect x="30" y="110" width="480" height="52" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
                                 <rect x="30" y="110" width="52" height="52" fill="#e8e8e8" rx="6 0 0 6"/>
                                 <text x="56" y="140" font-size="10" fill="#bbb" text-anchor="middle" font-family="sans-serif">写真</text>
-                                <rect x="96" y="120" width="160" height="10" rx="3" fill="#c8d8f0"/>
+                                <rect x="96" y="120" width="160" height="10" rx="3" fill="#f5c0bc"/>
                                 <rect x="96" y="136" width="100" height="8" rx="3" fill="#eee"/>
                                 <rect x="96" y="150" width="80" height="8" rx="3" fill="#eee"/>
 
@@ -231,21 +236,21 @@
                                 <rect x="30" y="20" width="80" height="80" fill="#e0e0e0" rx="8 0 0 0"/>
                                 <text x="70" y="64" font-size="10" fill="#bbb" text-anchor="middle" font-family="sans-serif">写真</text>
                                 <!-- テキスト部 -->
-                                <rect x="126" y="32" width="200" height="12" rx="3" fill="#c8d8f0"/>
+                                <rect x="126" y="32" width="200" height="12" rx="3" fill="#f5c0bc"/>
                                 <rect x="126" y="52" width="140" height="9" rx="3" fill="#f0c0c0"/>
                                 <rect x="126" y="68" width="100" height="8" rx="3" fill="#eee"/>
                                 <rect x="126" y="82" width="120" height="8" rx="3" fill="#eee"/>
 
                                 <!-- タグ行 -->
                                 <!-- タグ1（アクティブ：濃い青） -->
-                                <rect x="40" y="108" width="72" height="24" rx="12" fill="#0056b3" stroke="#0056b3" stroke-width="1"/>
+                                <rect x="40" y="108" width="72" height="24" rx="12" fill="#c0392b" stroke="#c0392b" stroke-width="1"/>
                                 <text x="76" y="124" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle">飲み放題</text>
                                 <!-- タグ2 -->
-                                <rect x="120" y="108" width="56" height="24" rx="12" fill="#eef6ff" stroke="#d0e4ff" stroke-width="1"/>
-                                <text x="148" y="124" font-size="11" fill="#0056b3" font-family="sans-serif" text-anchor="middle">昼飲み</text>
+                                <rect x="120" y="108" width="56" height="24" rx="12" fill="#fff0f0" stroke="#f5c6c0" stroke-width="1"/>
+                                <text x="148" y="124" font-size="11" fill="#c0392b" font-family="sans-serif" text-anchor="middle">昼飲み</text>
                                 <!-- タグ3 -->
-                                <rect x="184" y="108" width="72" height="24" rx="12" fill="#eef6ff" stroke="#d0e4ff" stroke-width="1"/>
-                                <text x="220" y="124" font-size="11" fill="#0056b3" font-family="sans-serif" text-anchor="middle">1次会向け</text>
+                                <rect x="184" y="108" width="72" height="24" rx="12" fill="#fff0f0" stroke="#f5c6c0" stroke-width="1"/>
+                                <text x="220" y="124" font-size="11" fill="#c0392b" font-family="sans-serif" text-anchor="middle">1次会向け</text>
 
                                 <!-- 赤い枠 -->
                                 <rect x="33" y="103" width="236" height="34" rx="8" fill="none" stroke="#d00" stroke-width="2.5"/>
@@ -256,10 +261,10 @@
                                 <text x="76" y="78" font-size="11" fill="#fff" font-family="sans-serif" text-anchor="middle" dominant-baseline="middle">クリック/タップで絞り込み</text>
 
                                 <!-- 絞り込み中バナー -->
-                                <rect x="30" y="164" width="520" height="36" rx="6" fill="#eef6ff" stroke="#d0e4ff" stroke-width="1"/>
-                                <text x="50" y="186" font-size="12" fill="#0056b3" font-family="sans-serif">「飲み放題」で絞り込み中</text>
-                                <rect x="410" y="171" width="70" height="22" rx="11" fill="#fff" stroke="#0056b3" stroke-width="1"/>
-                                <text x="445" y="186" font-size="11" fill="#0056b3" font-family="sans-serif" text-anchor="middle">✕ 解除</text>
+                                <rect x="30" y="164" width="520" height="36" rx="6" fill="#fff0f0" stroke="#f5c6c0" stroke-width="1"/>
+                                <text x="50" y="186" font-size="12" fill="#c0392b" font-family="sans-serif">「飲み放題」で絞り込み中</text>
+                                <rect x="410" y="171" width="70" height="22" rx="11" fill="#fff" stroke="#c0392b" stroke-width="1"/>
+                                <text x="445" y="186" font-size="11" fill="#c0392b" font-family="sans-serif" text-anchor="middle">✕ 解除</text>
 
                                 <!-- 矢印と吹き出し -->
                                 <line x1="445" y1="164" x2="445" y2="144" stroke="#d00" stroke-width="1.5"/>
@@ -286,18 +291,18 @@
                                 <!-- サイドバーウィジェット -->
                                 <rect x="390" y="20" width="262" height="160" rx="8" fill="#fff" stroke="#ddd" stroke-width="1.5"/>
                                 <!-- ウィジェットタイトル -->
-                                <rect x="390" y="20" width="262" height="36" rx="8 8 0 0" fill="#f0f5ff"/>
-                                <circle cx="414" cy="38" r="7" fill="none" stroke="#0056b3" stroke-width="1.5"/>
-                                <line x1="419" y1="43" x2="423" y2="47" stroke="#0056b3" stroke-width="1.5" stroke-linecap="round"/>
-                                <text x="430" y="42" font-size="12" fill="#0056b3" font-weight="bold" font-family="sans-serif">エリアから探す</text>
+                                <rect x="390" y="20" width="262" height="36" rx="8 8 0 0" fill="#fdf0f0"/>
+                                <circle cx="414" cy="38" r="7" fill="none" stroke="#c0392b" stroke-width="1.5"/>
+                                <line x1="419" y1="43" x2="423" y2="47" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round"/>
+                                <text x="430" y="42" font-size="12" fill="#c0392b" font-weight="bold" font-family="sans-serif">エリアから探す</text>
 
                                 <!-- エリアリスト -->
                                 <text x="408" y="72" font-size="11" fill="#555" font-family="sans-serif">› すべて</text>
                                 <text x="408" y="90" font-size="10" fill="#888" font-family="sans-serif" font-weight="bold">大阪</text>
-                                <text x="416" y="108" font-size="11" fill="#0056b3" font-family="sans-serif">› 梅田</text>
-                                <text x="416" y="124" font-size="11" fill="#0056b3" font-family="sans-serif">› 難波</text>
-                                <text x="416" y="140" font-size="11" fill="#0056b3" font-family="sans-serif">› 天満</text>
-                                <text x="416" y="156" font-size="11" fill="#0056b3" font-family="sans-serif">› 京橋</text>
+                                <text x="416" y="108" font-size="11" fill="#c0392b" font-family="sans-serif">› 梅田</text>
+                                <text x="416" y="124" font-size="11" fill="#c0392b" font-family="sans-serif">› 難波</text>
+                                <text x="416" y="140" font-size="11" fill="#c0392b" font-family="sans-serif">› 天満</text>
+                                <text x="416" y="156" font-size="11" fill="#c0392b" font-family="sans-serif">› 京橋</text>
 
                                 <!-- 赤い枠 -->
                                 <rect x="385" y="15" width="272" height="170" rx="10" fill="none" stroke="#d00" stroke-width="2.5"/>
@@ -309,10 +314,10 @@
 
                                 <!-- メインエリア（店舗リスト） -->
                                 <rect x="30" y="20" width="340" height="160" rx="8" fill="#fff" stroke="#ddd" stroke-width="1"/>
-                                <rect x="40" y="32" width="140" height="10" rx="3" fill="#c8d8f0"/>
+                                <rect x="40" y="32" width="140" height="10" rx="3" fill="#f5c0bc"/>
                                 <rect x="40" y="50" width="100" height="8" rx="3" fill="#eee"/>
                                 <rect x="40" y="65" width="120" height="8" rx="3" fill="#eee"/>
-                                <rect x="40" y="90" width="140" height="10" rx="3" fill="#c8d8f0"/>
+                                <rect x="40" y="90" width="140" height="10" rx="3" fill="#f5c0bc"/>
                                 <rect x="40" y="108" width="100" height="8" rx="3" fill="#eee"/>
                                 <rect x="40" y="123" width="120" height="8" rx="3" fill="#eee"/>
                             </svg>
@@ -458,5 +463,6 @@
     </footer>
 
     <script src="../sidebar.js"></script>
+    <script src="../nav.js"></script>
 </body>
 </html>
