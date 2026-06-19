@@ -96,7 +96,7 @@
 
             <div class="sidebar-widget widget-twitter">
                 <h3 class="widget-title"><i class="mdi mdi-twitter"></i> 最新ツイート</h3>
-                <a class="twitter-timeline" data-height="400" data-theme="light" href="https://twitter.com/x_kaiserland_x?ref_src=twsrc%5Etfw">Tweets by @x_kaiserland_x</a>
+                <a class="twitter-timeline" data-height="400" data-theme="light" href="https://twitter.com/OsakaGekiyasuDB?ref_src=twsrc%5Etfw">Tweets by @OsakaGekiyasuDB</a>
             </div>
         `;
     }
