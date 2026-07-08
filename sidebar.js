@@ -12,6 +12,8 @@
         return './';
     })();
 
+    // escapeHtml / parseCSVLine は utils.js を参照(このファイルより先に読み込むこと)
+
     /**
      * エリア文字列(例: "大阪/梅田", "北海道/旭川")から
      * 地方グループ → エリア名 の構造に変換する
@@ -41,11 +43,11 @@
             </ul>
         `;
         Object.keys(groups).forEach(region => {
-            html += `<h4 class="area-region-label">${region}</h4>`;
+            html += `<h4 class="area-region-label">${escapeHtml(region)}</h4>`;
             html += `<ul class="area-list">`;
             groups[region].forEach(area => {
                 const query = encodeURIComponent(area);
-                html += `<li><a href="${base}index.html?area=${query}"><i class="mdi mdi-chevron-right"></i>${area}</a></li>`;
+                html += `<li><a href="${base}index.html?area=${query}"><i class="mdi mdi-chevron-right"></i>${escapeHtml(area)}</a></li>`;
             });
             html += `</ul>`;
         });
@@ -128,7 +130,7 @@
 
                 // 簡易パース(area列 = index 1)
                 const shops = lines.slice(1).map(line => {
-                    const parts = line.split(',');
+                    const parts = parseCSVLine(line);
                     return { area: parts[1] || '' };
                 });
 

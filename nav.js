@@ -11,11 +11,13 @@
         return './';
     })();
 
-    // 現在ページのパスに応じてアクティブクラスを付与
+    // escapeHtml / parseCSVLine は utils.js を参照(このファイルより先に読み込むこと)
+
+    // 現在ページのパスに応じてアクティブクラスを付与(hrefを現在ページ基準で絶対パス化して厳密比較)
     function isActive(href) {
         const current = location.pathname.replace(/\/$/, '/index.html');
-        const target  = href.replace(/^\.\//, '/').replace(/^\.\.\//, '/');
-        return current.endsWith(target.replace(/^\//, '')) ? ' nav-active' : '';
+        const target  = new URL(href, location.href).pathname;
+        return current === target ? ' nav-active' : '';
     }
 
     function buildNav(areaGroups) {
@@ -24,7 +26,7 @@
         Object.keys(areaGroups).forEach(region => {
             areaGroups[region].forEach(area => {
                 const q = encodeURIComponent(area);
-                areaItems += `<li><a href="${base}index.html?area=${q}"><i class="mdi mdi-chevron-right"></i>${area}</a></li>`;
+                areaItems += `<li><a href="${base}index.html?area=${q}"><i class="mdi mdi-chevron-right"></i>${escapeHtml(area)}</a></li>`;
             });
         });
 
@@ -93,7 +95,7 @@
         Object.keys(areaGroups).forEach(region => {
             areaGroups[region].forEach(area => {
                 const q = encodeURIComponent(area);
-                html += `<li><a href="${base}index.html?area=${q}"><i class="mdi mdi-map-marker-outline"></i>${area}</a></li>`;
+                html += `<li><a href="${base}index.html?area=${q}"><i class="mdi mdi-map-marker-outline"></i>${escapeHtml(area)}</a></li>`;
             });
         });
         return html;
@@ -149,7 +151,7 @@
             .then(csv => {
                 const lines = csv.trim().split('\n').slice(1);
                 const shops = lines.map(line => {
-                    const parts = line.split(',');
+                    const parts = parseCSVLine(line);
                     return { area: parts[1] || '' };
                 });
                 const groups = groupAreas(shops);

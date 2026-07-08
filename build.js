@@ -30,6 +30,7 @@
 
 const fs   = require('fs');
 const path = require('path');
+const { escapeHtml, parseCSVLine } = require('./utils.js');
 
 // ─── パス設定 ────────────────────────────────────────────────
 const CSV_PATH      = path.join(__dirname, 'data.csv');
@@ -37,12 +38,24 @@ const TEMPLATE_PATH = path.join(__dirname, 'shops', 'template.html');
 const CONTENT_DIR   = path.join(__dirname, 'content');
 const OUTPUT_DIR    = path.join(__dirname, 'shops');
 
+// shop.id はファイル名・パスの一部として使うため、英数字・ハイフン・アンダースコアのみ許可する
+const SAFE_ID_RE = /^[A-Za-z0-9_-]+$/;
+
+// href / iframe src に埋め込むURLのスキームを検証する。
+// javascript: / vbscript: / data: などの危険なスキームは無効化する（app.js の safeUrl と同等）。
+function safeUrl(url) {
+    if (!url) return '';
+    if (/^\s*(javascript|vbscript|data):/i.test(url)) return '';
+    return url;
+}
+
 // ─── CSVパーサー ─────────────────────────────────────────────
+
 function parseCSV(text) {
     const lines = text.trim().split('\n');
-    const headers = lines[0].split(',');
+    const headers = parseCSVLine(lines[0]);
     return lines.slice(1).map(line => {
-        const values = line.split(',');
+        const values = parseCSVLine(line);
         const obj = {};
         headers.forEach((h, i) => { obj[h.trim()] = (values[i] || '').trim(); });
         return obj;
@@ -51,24 +64,18 @@ function parseCSV(text) {
 
 // ─── コンテンツHTMLビルダー ───────────────────────────────────
 
-function escapeHtml(str) {
-    return String(str == null ? '' : str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
-
 /** 店舗リンクテーブルを生成 */
 function buildLinksTable(links) {
     if (!links) {
         return `<p class="placeholder-text">準備中</p>`;
     }
+    const hp        = safeUrl(links.hp);
+    const instagram = safeUrl(links.instagram);
+    const twitter   = safeUrl(links.twitter);
     const rows = [
-        links.hp        ? `                        <tr><th>公式HP</th><td><a href="${escapeHtml(links.hp)}" target="_blank" rel="noopener noreferrer">公式サイト</a></td></tr>` : '',
-        links.instagram ? `                        <tr><th>Instagram</th><td><a href="${escapeHtml(links.instagram)}" target="_blank" rel="noopener noreferrer">公式Instagram</a></td></tr>` : '',
-        links.twitter   ? `                        <tr><th>X(Twitter)</th><td><a href="${escapeHtml(links.twitter)}" target="_blank" rel="noopener noreferrer">公式X(Twitter)</a></td></tr>` : '',
+        hp        ? `                        <tr><th>公式HP</th><td><a href="${escapeHtml(hp)}" target="_blank" rel="noopener noreferrer">公式サイト</a></td></tr>` : '',
+        instagram ? `                        <tr><th>Instagram</th><td><a href="${escapeHtml(instagram)}" target="_blank" rel="noopener noreferrer">公式Instagram</a></td></tr>` : '',
+        twitter   ? `                        <tr><th>X(Twitter)</th><td><a href="${escapeHtml(twitter)}" target="_blank" rel="noopener noreferrer">公式X(Twitter)</a></td></tr>` : '',
     ].filter(Boolean).join('\n');
 
     if (!rows) return `<p class="placeholder-text">準備中</p>`;
@@ -77,10 +84,11 @@ function buildLinksTable(links) {
 
 /** Google Mapのiframeを生成 */
 function buildMap(mapSrc) {
-    if (!mapSrc) {
+    const src = safeUrl(mapSrc);
+    if (!src) {
         return `<p class="placeholder-text">準備中</p>`;
     }
-    return `<iframe src="${escapeHtml(mapSrc)}" width="100%" height="300" class="map-iframe" allowfullscreen="" loading="lazy" title="店舗の地図"></iframe>`;
+    return `<iframe src="${escapeHtml(src)}" width="100%" height="300" class="map-iframe" allowfullscreen="" loading="lazy" title="店舗の地図"></iframe>`;
 }
 
 
@@ -121,6 +129,7 @@ function buildOrders(orders) {
                 return `                        <tr><td class="order-name">${name}${noteHtml}</td><td class="order-price">${price}</td><td class="order-qty">${qtyCell}</td></tr>`;
             }
             // パターン不一致はそのまま全幅で表示
+            console.warn(`[WARN] 注文項目のパースに失敗しました（フォーマット不一致のためそのまま表示します）: "${item}"`);
             return `                        <tr><td class="order-name" colspan="3">${escapeHtml(item)}</td></tr>`;
         }).join('\n');
 
@@ -187,7 +196,9 @@ ${thumbs}
 // ─── テンプレート置換 ─────────────────────────────────────────
 function render(template, shop, content) {
     const fullName  = `【${shop.area}】${shop.name}`;
-    const areaShort = shop.area.split('/').pop();
+    // area は "地方/エリア" の2階層を想定。3階層以上は地方名(先頭)を除いた残りを連結する。
+    const areaParts = shop.area.split('/');
+    const areaShort  = areaParts.length > 1 ? areaParts.slice(1).join('/') : areaParts[0];
 
     // CSVから埋め込む値
     const replacements = {
@@ -244,13 +255,22 @@ function main() {
     let count = 0;
     shops.forEach(shop => {
         if (!shop.id) return;
+        if (!SAFE_ID_RE.test(shop.id)) {
+            console.error(`[ERROR] 不正なidのためスキップします（英数字・ハイフン・アンダースコアのみ許可）: "${shop.id}"`);
+            return;
+        }
 
         // content/{id}.json があれば読み込む、なければ null
         const contentPath = path.join(CONTENT_DIR, `${shop.id}.json`);
         let content = null;
         if (fs.existsSync(contentPath)) {
-            content = JSON.parse(fs.readFileSync(contentPath, 'utf-8'));
-            console.log(`[OK] ${shop.id}.html（コンテンツあり）`);
+            try {
+                content = JSON.parse(fs.readFileSync(contentPath, 'utf-8'));
+                console.log(`[OK] ${shop.id}.html（コンテンツあり）`);
+            } catch (err) {
+                console.error(`[ERROR] content/${shop.id}.json の解析に失敗しました。このファイルをスキップして「準備中」で生成します: ${err.message}`);
+                content = null;
+            }
         } else {
             console.log(`[--] ${shop.id}.html（content/${shop.id}.json なし → 準備中で生成）`);
         }

@@ -5,16 +5,7 @@ let activeSearch = '';
 let currentPage = 1;
 const itemsPerPage = 10;
 
-// ─── ユーティリティ ───────────────────────────────────────────
-
-function escapeHtml(str) {
-    return String(str == null ? '' : str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
+// escapeHtml / parseCSVLine は utils.js を参照(このファイルより先に読み込むこと)
 
 function safeUrl(url) {
     if (!url) return '#';
@@ -59,23 +50,24 @@ function parseCSV(csvText) {
     lines.shift();
 
     allShops = lines.map(line => {
-        const parts = line.split(',');
+        const parts = parseCSVLine(line);
+        const get = i => parts[i] || '';
         return {
-            id: parts[0],
-            area: parts[1],
-            name: parts[2],
-            subtitle: parts[3],
-            otoshi: parts[4],
-            happyhour: parts[5],
-            set: parts[6],
-            budget: parts[7],
-            persons: parts[8],
-            smoke: parts[9],
-            tags: parts[10] ? parts[10].split(' ') : [],
-            visitDate: parts[11],
-            updateDate: parts[12],
-            img: parts[13],
-            url: parts[14]
+            id: get(0),
+            area: get(1),
+            name: get(2),
+            subtitle: get(3),
+            otoshi: get(4),
+            happyhour: get(5),
+            set: get(6),
+            budget: get(7),
+            persons: get(8),
+            smoke: get(9),
+            tags: get(10) ? get(10).split(' ') : [],
+            visitDate: get(11),
+            updateDate: get(12),
+            img: get(13),
+            url: get(14)
         };
     });
 }
@@ -242,70 +234,5 @@ function changePage(page) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ─── 共有ボタン ───────────────────────────────────────────────
-
-function openShareUrl(url) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-}
-
-function shareX(e) {
-    e.preventDefault();
-    const url = encodeURIComponent(location.href);
-    const text = encodeURIComponent(document.title);
-    openShareUrl(`https://twitter.com/intent/tweet?url=${url}&text=${text}`);
-}
-
-function shareFacebook(e) {
-    e.preventDefault();
-    const url = encodeURIComponent(location.href);
-    openShareUrl(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
-}
-
-function shareLine(e) {
-    e.preventDefault();
-    const url = encodeURIComponent(location.href);
-    const text = encodeURIComponent(document.title);
-    openShareUrl(`https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`);
-}
-
-function shareBluesky(e) {
-    e.preventDefault();
-    const url = encodeURIComponent(location.href);
-    const text = encodeURIComponent(document.title + ' ' + location.href);
-    openShareUrl(`https://bsky.app/intent/compose?text=${text}`);
-}
-
-function shareThreads(e) {
-    e.preventDefault();
-    const url = encodeURIComponent(location.href);
-    openShareUrl(`https://www.threads.net/intent/post?text=${url}`);
-}
-
-async function copyUrl(e) {
-    e.preventDefault();
-    try {
-        await navigator.clipboard.writeText(location.href);
-        const btn = e.currentTarget;
-        const span = btn.querySelector('span');
-        const orig = span.textContent;
-        span.textContent = 'コピーしました！';
-        btn.classList.add('copied');
-        setTimeout(() => { span.textContent = orig; btn.classList.remove('copied'); }, 2000);
-    } catch (_) {
-        prompt('以下のURLをコピーしてください', location.href);
-    }
-}
-
-// グローバル公開(HTML の onclick から参照)
-window.shareX = shareX;
-window.shareFacebook = shareFacebook;
-window.shareLine = shareLine;
-window.shareBluesky = shareBluesky;
-window.shareThreads = shareThreads;
-window.copyUrl = copyUrl;
+// 共有ボタン(shareX / shareFacebook / shareLine / shareBluesky / shareThreads / copyUrl)は
+// share.js を参照(index.html で app.js と一緒に読み込むこと)
