@@ -11,22 +11,26 @@
         return './';
     })();
 
-    // escapeHtml / parseCSVLine は utils.js を参照(このファイルより先に読み込むこと)
+    // escapeHtml / parseCSVLine / fetchCsvText は utils.js を参照(このファイルより先に読み込むこと)
 
     // 現在ページのパスに応じてアクティブクラスを付与(hrefを現在ページ基準で絶対パス化して厳密比較)
+    // "/" と "/index.html" は同一ページとして扱うため、両者とも "/index.html" 形に正規化してから比較する
+    function normalizePath(p) {
+        return p.replace(/\/$/, '/index.html');
+    }
     function isActive(href) {
-        const current = location.pathname.replace(/\/$/, '/index.html');
-        const target  = new URL(href, location.href).pathname;
+        const current = normalizePath(location.pathname);
+        const target  = normalizePath(new URL(href, location.href).pathname);
         return current === target ? ' nav-active' : '';
     }
 
     function buildNav(areaGroups) {
         // エリアのドロップダウン項目
-        let areaItems = `<li><a href="${base}index.html"><i class="mdi mdi-view-list"></i>すべて</a></li>`;
+        let areaItems = `<li><a href="${base}"><i class="mdi mdi-view-list"></i>すべて</a></li>`;
         Object.keys(areaGroups).forEach(region => {
             areaGroups[region].forEach(area => {
                 const q = encodeURIComponent(area);
-                areaItems += `<li><a href="${base}index.html?area=${q}"><i class="mdi mdi-chevron-right"></i>${escapeHtml(area)}</a></li>`;
+                areaItems += `<li><a href="${base}?area=${q}"><i class="mdi mdi-chevron-right"></i>${escapeHtml(area)}</a></li>`;
             });
         });
 
@@ -34,12 +38,12 @@
             <div class="global-nav-inner">
                 <ul class="nav-links">
                     <li>
-                        <a href="${base}index.html" class="${isActive(base + 'index.html')}">
+                        <a href="${base}" class="${isActive(base)}">
                             <i class="mdi mdi-home-outline"></i>トップ
                         </a>
                     </li>
                     <li class="nav-dropdown">
-                        <a href="${base}index.html" class="${isActive(base + 'index.html')}">
+                        <a href="${base}" class="${isActive(base)}">
                             <i class="mdi mdi-map-marker-outline"></i>エリアから探す
                         </a>
                         <ul class="nav-dropdown-menu">
@@ -77,7 +81,7 @@
                     <button class="nav-mobile-close" id="nav-close" aria-label="メニューを閉じる">&times;</button>
                 </div>
                 <ul class="nav-mobile-links">
-                    <li><a href="${base}index.html"><i class="mdi mdi-home-outline"></i>トップ</a></li>
+                    <li><a href="${base}"><i class="mdi mdi-home-outline"></i>トップ</a></li>
                     <li><span class="nav-section-label">エリアから探す</span></li>
                     ${buildMobileAreaItems(areaGroups)}
                     <li><span class="nav-section-label">ガイド</span></li>
@@ -95,7 +99,7 @@
         Object.keys(areaGroups).forEach(region => {
             areaGroups[region].forEach(area => {
                 const q = encodeURIComponent(area);
-                html += `<li><a href="${base}index.html?area=${q}"><i class="mdi mdi-map-marker-outline"></i>${escapeHtml(area)}</a></li>`;
+                html += `<li><a href="${base}?area=${q}"><i class="mdi mdi-map-marker-outline"></i>${escapeHtml(area)}</a></li>`;
             });
         });
         return html;
@@ -146,8 +150,7 @@
         const nav = document.getElementById('global-nav');
         if (!nav) return;
 
-        fetch(base + 'data.csv')
-            .then(r => r.text())
+        fetchCsvText(base + 'data.csv')
             .then(csv => {
                 const lines = csv.trim().split('\n').slice(1);
                 const shops = lines.map(line => {

@@ -20,6 +20,21 @@
             .replace(/'/g, '&#39;');
     }
 
+    // data.csv の取得結果をキャッシュし、同一ページ内での重複リクエストを防ぐ。
+    // app.js / nav.js / sidebar.js は同じページで個別に data.csv を必要とするため、
+    // ここに集約して通信を1回にまとめる(相対パスの表記ゆれは絶対URLに正規化してキーにする)。
+    var _csvFetchCache = {};
+    function fetchCsvText(path) {
+        var key = new URL(path, location.href).href;
+        if (!_csvFetchCache[key]) {
+            _csvFetchCache[key] = fetch(path).then(function (res) {
+                if (!res.ok) throw new Error('CSVの取得に失敗しました: ' + path);
+                return res.text();
+            });
+        }
+        return _csvFetchCache[key];
+    }
+
     // RFC4180準拠の簡易CSV行パーサ(クォート内のカンマ・エスケープされた"を正しく扱う)
     function parseCSVLine(line) {
         const result = [];
@@ -44,5 +59,5 @@
         return result;
     }
 
-    return { escapeHtml, parseCSVLine };
+    return { escapeHtml, parseCSVLine, fetchCsvText };
 });

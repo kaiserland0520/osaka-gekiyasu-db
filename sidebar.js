@@ -12,7 +12,7 @@
         return './';
     })();
 
-    // escapeHtml / parseCSVLine は utils.js を参照(このファイルより先に読み込むこと)
+    // escapeHtml / parseCSVLine / fetchCsvText は utils.js を参照(このファイルより先に読み込むこと)
 
     /**
      * エリア文字列(例: "大阪/梅田", "北海道/旭川")から
@@ -39,7 +39,7 @@
     function buildAreaLinks(groups) {
         let html = `
             <ul class="area-list">
-                <li><a href="${base}index.html"><i class="mdi mdi-view-list"></i>すべて</a></li>
+                <li><a href="${base}"><i class="mdi mdi-view-list"></i>すべて</a></li>
             </ul>
         `;
         Object.keys(groups).forEach(region => {
@@ -47,7 +47,7 @@
             html += `<ul class="area-list">`;
             groups[region].forEach(area => {
                 const query = encodeURIComponent(area);
-                html += `<li><a href="${base}index.html?area=${query}"><i class="mdi mdi-chevron-right"></i>${escapeHtml(area)}</a></li>`;
+                html += `<li><a href="${base}?area=${query}"><i class="mdi mdi-chevron-right"></i>${escapeHtml(area)}</a></li>`;
             });
             html += `</ul>`;
         });
@@ -97,24 +97,12 @@
             </div>
 
             <div class="sidebar-widget widget-twitter">
-                <h3 class="widget-title"><i class="mdi mdi-twitter"></i> 最新ツイート</h3>
-                <a class="twitter-timeline" data-height="400" data-theme="light" href="https://twitter.com/OsakaGekiyasuDB?ref_src=twsrc%5Etfw">Tweets by @OsakaGekiyasuDB</a>
+                <h3 class="widget-title"><i class="mdi mdi-twitter"></i> X(旧Twitter)</h3>
+                <ul class="guide-list">
+                    <li><a href="https://x.com/OsakaGekiyasuDB" target="_blank" rel="noopener noreferrer"><i class="mdi mdi-open-in-new"></i>最新の投稿を見る</a></li>
+                </ul>
             </div>
         `;
-    }
-
-    // Twitter(X)埋め込みウィジェット用スクリプトを読み込み、タイムラインを描画する
-    function loadTwitterTimeline() {
-        if (window.twttr && window.twttr.widgets) {
-            window.twttr.widgets.load();
-            return;
-        }
-        if (document.getElementById('twitter-wjs')) return;
-        const script = document.createElement('script');
-        script.id = 'twitter-wjs';
-        script.src = 'https://platform.twitter.com/widgets.js';
-        script.async = true;
-        document.body.appendChild(script);
     }
 
     function init() {
@@ -122,8 +110,7 @@
         if (!sidebar) return;
 
         // CSVから店舗数とエリア一覧を取得してサイドバーを描画
-        fetch(base + 'data.csv')
-            .then(r => r.text())
+        fetchCsvText(base + 'data.csv')
             .then(csv => {
                 const lines = csv.trim().split('\n');
                 const count = lines.length - 1; // ヘッダー除く
@@ -137,15 +124,13 @@
                 const groups = groupAreas(shops);
                 const areaLinksHtml = buildAreaLinks(groups);
                 sidebar.innerHTML = buildSidebar(count, areaLinksHtml);
-                loadTwitterTimeline();
             })
             .catch(() => {
                 sidebar.innerHTML = buildSidebar(null, `
                     <ul class="area-list">
-                        <li><a href="${base}index.html"><i class="mdi mdi-view-list"></i>すべて</a></li>
+                        <li><a href="${base}"><i class="mdi mdi-view-list"></i>すべて</a></li>
                     </ul>
                 `);
-                loadTwitterTimeline();
             });
     }
 

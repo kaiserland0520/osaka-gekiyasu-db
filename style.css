@@ -237,6 +237,28 @@ h2 {
     text-decoration: underline;
 }
 
+/* 閉店表示(検索一覧カード) */
+.shop-card-closed {
+    opacity: 0.75;
+}
+
+.shop-card-closed .shop-image img {
+    filter: grayscale(1);
+}
+
+.closed-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #444;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
 /* 料金グリッド */
 .price-grid-detail {
     margin: 20px 0;
@@ -288,6 +310,7 @@ h2 {
     max-width: 100%;
     border-collapse: collapse;
     border: 1px solid var(--border-color);
+    table-layout: fixed;
 }
 
 /* Google Map */
@@ -305,12 +328,13 @@ h2 {
 }
 
 .shop-info-table th {
-    width: 50px;
+    width: 110px;
     background-color: #f9f9f9;
     border: 1px solid var(--border-color);
     padding: 8px;
     text-align: center;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .shop-info-table td {
@@ -477,6 +501,30 @@ h2 {
     display: block;
 }
 
+/* 閉店表示(店舗詳細ページ) */
+.closed-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #333;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+}
+
+.closed-notice i {
+    font-size: 1.2rem;
+}
+
+/* トピックス：情報が古くなった項目(削除はせず取り消し線で表示) */
+.topic-strike {
+    text-decoration: line-through;
+    color: #999;
+}
+
 /* 免責事項 */
 .disclaimer {
     font-size: 0.8rem;
@@ -599,6 +647,78 @@ h2 {
     margin-top: 30px;
 }
 
+/* 前後の店舗ナビゲーション＋トップページへ戻る */
+.shop-pager {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: "prev top next";
+    align-items: center;
+    gap: 12px;
+}
+
+.shop-pager-slot {
+    display: flex;
+    min-width: 0;
+}
+
+.shop-pager-slot-prev { grid-area: prev; justify-content: flex-start; }
+.shop-pager-slot-next { grid-area: next; justify-content: flex-end; }
+
+.shop-pager-top {
+    grid-area: top;
+    white-space: nowrap;
+    justify-self: center;
+}
+
+@media (max-width: 600px) {
+    .shop-pager {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "prev next"
+            "top  top";
+    }
+    .shop-pager-top { margin-top: 4px; }
+}
+
+.shop-pager-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 260px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.shop-pager-next {
+    text-align: right;
+}
+
+.shop-pager-dir {
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: var(--label-color);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.shop-pager-next .shop-pager-dir {
+    justify-content: flex-end;
+}
+
+.shop-pager-name {
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .shop-pager-btn {
+        width: 150px;
+    }
+}
+
 footer {
     text-align: center;
     padding: 40px 20px;
@@ -636,10 +756,6 @@ footer p {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 18px;
-}
-
-.widget-twitter iframe {
-    max-width: 100%;
 }
 
 .widget-title {

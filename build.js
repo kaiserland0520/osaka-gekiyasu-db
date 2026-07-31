@@ -42,11 +42,66 @@ const OUTPUT_DIR    = path.join(__dirname, 'shops');
 const SAFE_ID_RE = /^[A-Za-z0-9_-]+$/;
 
 // href / iframe src に埋め込むURLのスキームを検証する。
-// javascript: / vbscript: / data: などの危険なスキームは無効化する（app.js の safeUrl と同等）。
+// javascript: / vbscript: / data: などの危険なスキームは無効化する(app.js の safeUrl と同等)。
 function safeUrl(url) {
     if (!url) return '';
     if (/^\s*(javascript|vbscript|data):/i.test(url)) return '';
     return url;
+}
+
+// ─── サイト公開URL・SEO用ファイル ─────────────────────────────
+// sitemap.xml / robots.txt に使う本番の公開URL(末尾スラッシュなし)。CNAME と一致させること。
+const SITE_URL     = 'https://osaka-gekiyasu-db.com';
+const SITEMAP_PATH = path.join(__dirname, 'sitemap.xml');
+const ROBOTS_PATH  = path.join(__dirname, 'robots.txt');
+
+// クローラーが辿るべき固定ページ(トップページ + ガイド類)
+const STATIC_PAGES = [
+    '',                    // トップページ (= SITE_URL/)
+    'guide/about.html',
+    'guide/howto.html',
+    'guide/tips.html',
+    'guide/contact.html',
+];
+
+// "2026/07/04" → "2026-07-04"(sitemap の lastmod 用 W3C日付)。不正な値は空文字。
+function toIsoDate(s) {
+    const m = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/.exec((s || '').trim());
+    if (!m) return '';
+    const pad = n => String(n).padStart(2, '0');
+    return `${m[1]}-${pad(m[2])}-${pad(m[3])}`;
+}
+
+// sitemap.xml を生成する。shopEntries = [{ url, lastmod }]
+function writeSitemap(shopEntries) {
+    // 全ページの最終更新日の最大値をトップ・ガイドの lastmod に使う
+    const latest = shopEntries
+        .map(e => e.lastmod)
+        .filter(Boolean)
+        .sort()
+        .pop() || '';
+
+    const urlTag = (loc, lastmod) =>
+        `  <url>\n    <loc>${loc}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''}\n  </url>`;
+
+    const staticUrls = STATIC_PAGES.map(p => urlTag(`${SITE_URL}/${p}`, latest));
+    const shopUrls   = shopEntries.map(e => urlTag(`${SITE_URL}/${e.url}`, e.lastmod));
+
+    const xml =
+        `<?xml version="1.0" encoding="UTF-8"?>\n` +
+        `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+        [...staticUrls, ...shopUrls].join('\n') +
+        `\n</urlset>\n`;
+
+    fs.writeFileSync(SITEMAP_PATH, xml, 'utf-8');
+    console.log(`[OK] sitemap.xml(${STATIC_PAGES.length + shopEntries.length}URL)`);
+}
+
+// robots.txt を生成する(全許可 + sitemap の場所を明示)
+function writeRobots() {
+    const txt = `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
+    fs.writeFileSync(ROBOTS_PATH, txt, 'utf-8');
+    console.log('[OK] robots.txt');
 }
 
 // ─── CSVパーサー ─────────────────────────────────────────────
@@ -82,6 +137,24 @@ function buildLinksTable(links) {
     return `<table class="shop-info-table">\n                        <tbody>\n${rows}\n                        </tbody>\n                    </table>`;
 }
 
+/** 閉店時の案内バナーを生成 */
+function buildClosedNotice(status) {
+    if (status !== '閉店') return '';
+    return `<div class="closed-notice"><i class="mdi mdi-store-off-outline"></i> この店舗は閉店しました。掲載内容は営業当時の情報です。</div>`;
+}
+
+/** 前後の店舗ページへのナビゲーションボタンを生成。shop が null の場合(先頭/末尾)は空文字を返す */
+function buildShopNavLink(shop, direction) {
+    if (!shop) return '';
+    const dirHtml = direction === 'prev'
+        ? `<i class="mdi mdi-chevron-left"></i>前の店舗`
+        : `次の店舗<i class="mdi mdi-chevron-right"></i>`;
+    return `<a href="${escapeHtml(shop.id)}.html" class="page-btn shop-pager-btn shop-pager-${direction}" title="${escapeHtml(shop.name)}">` +
+           `<span class="shop-pager-dir">${dirHtml}</span>` +
+           `<span class="shop-pager-name">${escapeHtml(shop.name)}</span>` +
+           `</a>`;
+}
+
 /** Google Mapのiframeを生成 */
 function buildMap(mapSrc) {
     const src = safeUrl(mapSrc);
@@ -92,12 +165,17 @@ function buildMap(mapSrc) {
 }
 
 
-/** トピックスのul>liを生成 */
+/** トピックスのul>liを生成。各項目は { text, strike } 形式(旧形式の文字列も許容)。
+ *  strike が true の項目は、情報が古くなったが削除はしない意図で取り消し線表示にする。 */
 function buildTopics(topics) {
     if (!topics || topics.length === 0) {
         return `<p class="placeholder-text">準備中</p>`;
     }
-    const items = topics.map(t => `                    <li>${escapeHtml(t)}</li>`).join('\n');
+    const items = topics.map(t => {
+        const item = typeof t === 'string' ? { text: t, strike: false } : t;
+        const cls  = item.strike ? ' class="topic-strike"' : '';
+        return `                    <li${cls}>${escapeHtml(item.text)}</li>`;
+    }).join('\n');
     return `<ul>\n${items}\n                    </ul>`;
 }
 
@@ -118,8 +196,10 @@ function buildOrders(orders) {
             const main = noteSplit[0].trim();
             const note = noteSplit[1] ? noteSplit[1].trim() : '';
 
-            // 単価部分 (xxx) を分離
-            const priceMatch = main.match(/^(.*?)\(([^)]+)\)(.*)$/);
+            // 単価部分 (xxx) を分離。
+            // メニュー名自体が括弧を含む場合(例: "とりかわ(明太チリ味)(198)×2")に備え、
+            // 貪欲マッチで「最後の括弧」を単価として扱う(先頭側の括弧は名前の一部として残す)。
+            const priceMatch = main.match(/^(.*)\(([^)]+)\)(.*)$/);
             if (priceMatch) {
                 const name  = escapeHtml(priceMatch[1].trim());
                 const price = escapeHtml(priceMatch[2].trim());
@@ -129,7 +209,7 @@ function buildOrders(orders) {
                 return `                        <tr><td class="order-name">${name}${noteHtml}</td><td class="order-price">${price}</td><td class="order-qty">${qtyCell}</td></tr>`;
             }
             // パターン不一致はそのまま全幅で表示
-            console.warn(`[WARN] 注文項目のパースに失敗しました（フォーマット不一致のためそのまま表示します）: "${item}"`);
+            console.warn(`[WARN] 注文項目のパースに失敗しました(フォーマット不一致のためそのまま表示します): "${item}"`);
             return `                        <tr><td class="order-name" colspan="3">${escapeHtml(item)}</td></tr>`;
         }).join('\n');
 
@@ -194,7 +274,7 @@ ${thumbs}
 }
 
 // ─── テンプレート置換 ─────────────────────────────────────────
-function render(template, shop, content) {
+function render(template, shop, content, prevShop, nextShop) {
     const fullName  = `【${shop.area}】${shop.name}`;
     // area は "地方/エリア" の2階層を想定。3階層以上は地方名(先頭)を除いた残りを連結する。
     const areaParts = shop.area.split('/');
@@ -218,6 +298,9 @@ function render(template, shop, content) {
         '{{UPDATE_DATE}}': escapeHtml(shop.updateDate),
         '{{IMG}}':         escapeHtml(shop.img),
         '{{URL}}':         escapeHtml(shop.url),
+        '{{STATUS_BANNER}}': buildClosedNotice(shop.status),
+        '{{PREV_LINK}}':   buildShopNavLink(prevShop, 'prev'),
+        '{{NEXT_LINK}}':   buildShopNavLink(nextShop, 'next'),
         '{{TAGS}}':        (shop.tags || '').split(' ').filter(Boolean).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join(''),
         // JSONから埋め込む値(ファイルがなければ「準備中」)
         '{{LINKS_TABLE}}': buildLinksTable(content && content.links),
@@ -252,13 +335,22 @@ function main() {
         fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     }
 
-    let count = 0;
-    shops.forEach(shop => {
-        if (!shop.id) return;
+    // id が有効な店舗のみを対象とする。data.csv の並び順 = サイト上の表示順(新着順)であり、
+    // 「前の店舗」「次の店舗」ナビゲーションもこの並び順に基づく。
+    const validShops = shops.filter(shop => {
+        if (!shop.id) return false;
         if (!SAFE_ID_RE.test(shop.id)) {
-            console.error(`[ERROR] 不正なidのためスキップします（英数字・ハイフン・アンダースコアのみ許可）: "${shop.id}"`);
-            return;
+            console.error(`[ERROR] 不正なidのためスキップします(英数字・ハイフン・アンダースコアのみ許可): "${shop.id}"`);
+            return false;
         }
+        return true;
+    });
+
+    let count = 0;
+    const sitemapEntries = []; // sitemap.xml 用(生成に成功した店舗のみ)
+    validShops.forEach((shop, i) => {
+        const prevShop = i > 0 ? validShops[i - 1] : null;
+        const nextShop = i < validShops.length - 1 ? validShops[i + 1] : null;
 
         // content/{id}.json があれば読み込む、なければ null
         const contentPath = path.join(CONTENT_DIR, `${shop.id}.json`);
@@ -266,20 +358,28 @@ function main() {
         if (fs.existsSync(contentPath)) {
             try {
                 content = JSON.parse(fs.readFileSync(contentPath, 'utf-8'));
-                console.log(`[OK] ${shop.id}.html（コンテンツあり）`);
+                console.log(`[OK] ${shop.id}.html(コンテンツあり)`);
             } catch (err) {
                 console.error(`[ERROR] content/${shop.id}.json の解析に失敗しました。このファイルをスキップして「準備中」で生成します: ${err.message}`);
                 content = null;
             }
         } else {
-            console.log(`[--] ${shop.id}.html（content/${shop.id}.json なし → 準備中で生成）`);
+            console.log(`[--] ${shop.id}.html(content/${shop.id}.json なし → 準備中で生成)`);
         }
 
-        const html    = render(template, shop, content);
+        const html    = render(template, shop, content, prevShop, nextShop);
         const outPath = path.join(OUTPUT_DIR, `${shop.id}.html`);
         fs.writeFileSync(outPath, html, 'utf-8');
         count++;
+
+        // sitemap 用エントリ。url列があればそれを、無ければ shops/{id}.html を使う
+        const relUrl = (shop.url && shop.url.trim()) || `shops/${shop.id}.html`;
+        sitemapEntries.push({ url: relUrl, lastmod: toIsoDate(shop.updateDate) });
     });
+
+    // SEO用ファイルを生成
+    writeSitemap(sitemapEntries);
+    writeRobots();
 
     console.log(`\n✅ ${count}件のHTMLを生成しました。`);
 }

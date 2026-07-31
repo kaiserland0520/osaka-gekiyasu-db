@@ -5,7 +5,7 @@ let activeSearch = '';
 let currentPage = 1;
 const itemsPerPage = 10;
 
-// escapeHtml / parseCSVLine は utils.js を参照(このファイルより先に読み込むこと)
+// escapeHtml / parseCSVLine / fetchCsvText は utils.js を参照(このファイルより先に読み込むこと)
 
 function safeUrl(url) {
     if (!url) return '#';
@@ -25,11 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    fetch('data.csv')
-        .then(response => {
-            if (!response.ok) throw new Error('CSVの取得に失敗しました');
-            return response.text();
-        })
+    fetchCsvText('data.csv')
         .then(csvText => {
             parseCSV(csvText);
             applyFilters();
@@ -67,7 +63,8 @@ function parseCSV(csvText) {
             visitDate: get(11),
             updateDate: get(12),
             img: get(13),
-            url: get(14)
+            url: get(14),
+            status: get(15)
         };
     });
 }
@@ -99,8 +96,10 @@ function renderPage(page) {
             tagsContainer.appendChild(span);
         });
 
+        const isClosed = shop.status === '閉店';
+
         const card = document.createElement('div');
-        card.className = 'shop-card';
+        card.className = 'shop-card' + (isClosed ? ' shop-card-closed' : '');
         card.innerHTML = `
             <div class="shop-card-main">
                 <div class="shop-image">
@@ -109,6 +108,7 @@ function renderPage(page) {
                     </a>
                 </div>
                 <div class="shop-details">
+                    ${isClosed ? '<span class="closed-badge"><i class="mdi mdi-store-off-outline"></i> 閉店しました</span>' : ''}
                     <a href="${escapeHtml(safeUrl(shop.url))}" class="shop-title">【${escapeHtml(shop.area)}】${escapeHtml(shop.name)}</a>
                     <div class="shop-subtitle">${escapeHtml(shop.subtitle)}</div>
                     <div class="price-grid">
