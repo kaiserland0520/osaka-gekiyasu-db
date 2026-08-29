@@ -143,6 +143,52 @@ function buildClosedNotice(status) {
     return `<div class="closed-notice"><i class="mdi mdi-store-off-outline"></i> この店舗は閉店しました。掲載内容は営業当時の情報です。</div>`;
 }
 
+/** Google MapのiframeのsrcからGPS座標を抽出する(pbパラメータの !2d{経度}!3d{緯度} 形式)。取得できなければ null */
+function extractGeoFromMapSrc(mapSrc) {
+    if (!mapSrc) return null;
+    const m = /!2d(-?[\d.]+)!3d(-?[\d.]+)/.exec(mapSrc);
+    if (!m) return null;
+    return {
+        '@type': 'GeoCoordinates',
+        latitude:  parseFloat(m[2]),
+        longitude: parseFloat(m[1]),
+    };
+}
+
+/** 店舗ページ用の構造化データ(JSON-LD)を生成する。
+ *  掲載済みの情報(店名・エリア・予算・地図座標)のみを使い、評価やレビュー・営業時間など
+ *  当サイトが保持していない情報は出力しない(Googleの構造化データガイドライン違反を避けるため)。
+ *  閉店した店舗は営業中の飲食店として誤解を招くため出力しない。 */
+function buildStructuredData(shop, content) {
+    if (shop.status === '閉店') return '';
+
+    const areaParts = shop.area.split('/');
+    const addressLocality = areaParts.length > 1 ? areaParts[1] : areaParts[0];
+
+    const data = {
+        '@context': 'https://schema.org',
+        '@type': 'Restaurant',
+        name: shop.name,
+        image: `${SITE_URL}/images/${shop.img}`,
+        url: `${SITE_URL}/${shop.url}`,
+        description: shop.subtitle,
+        servesCuisine: 'Japanese',
+        priceRange: shop.budget,
+        address: {
+            '@type': 'PostalAddress',
+            addressLocality,
+            addressCountry: 'JP',
+        },
+    };
+
+    const geo = extractGeoFromMapSrc(content && content.mapSrc);
+    if (geo) data.geo = geo;
+
+    // </script> によるタグの早期終了を防ぐため "<" をエスケープする
+    const json = JSON.stringify(data, null, 2).replace(/</g, '\\u003c');
+    return `<script type="application/ld+json">\n${json}\n    </script>`;
+}
+
 /** 前後の店舗ページへのナビゲーションボタンを生成。shop が null の場合(先頭/末尾)は空文字を返す */
 function buildShopNavLink(shop, direction) {
     if (!shop) return '';
@@ -180,41 +226,32 @@ function buildTopics(topics) {
 }
 
 /** 注文例のリストを生成 */
+/** 注文例1件分(合計金額欄)のテキストを生成。金額・人数・注釈をまとめて1行にする */
+function buildOrderTotalText(order) {
+    let text = escapeHtml(order.amount || '');
+    if (order.persons) text += `(${escapeHtml(order.persons)})`;
+    if (order.note)    text += `　※${escapeHtml(order.note)}`;
+    return text;
+}
+
+/** 注文例1件分(明細行)のHTMLを生成。各アイテムは { name, price, qty, note } の構造化データ */
+function buildOrderItemRows(items) {
+    return (items || []).map(item => {
+        const name     = escapeHtml(item.name || '');
+        const price    = escapeHtml(item.price || '');
+        const qtyCell  = escapeHtml(item.qty || '1');
+        const noteHtml = item.note ? `<br><span class="order-note">※${escapeHtml(item.note)}</span>` : '';
+        return `                        <tr><td class="order-name">${name}${noteHtml}</td><td class="order-price">${price}</td><td class="order-qty">${qtyCell}</td></tr>`;
+    }).join('\n');
+}
+
 function buildOrders(orders) {
     if (!orders || orders.length === 0) {
         return `<p class="placeholder-text">準備中</p>`;
     }
     const blocks = orders.map(order => {
-        // 各アイテムを「商品名(単価)×数量　※備考」の形式でパースしてテーブル行に変換
-        // パターン例:
-        //   "お通し(418円)×7人"
-        //   "2時間飲み放題(438円)×7人　※LINEクーポン当選価格"
-        //   "うずらの醬油漬け(429円)"  ← 数量なし
-        const rows = order.items.map(item => {
-            // 備考(全角スペース＋※)を分離
-            const noteSplit = item.split(/[\u3000\s]※/);
-            const main = noteSplit[0].trim();
-            const note = noteSplit[1] ? noteSplit[1].trim() : '';
-
-            // 単価部分 (xxx) を分離。
-            // メニュー名自体が括弧を含む場合(例: "とりかわ(明太チリ味)(198)×2")に備え、
-            // 貪欲マッチで「最後の括弧」を単価として扱う(先頭側の括弧は名前の一部として残す)。
-            const priceMatch = main.match(/^(.*)\(([^)]+)\)(.*)$/);
-            if (priceMatch) {
-                const name  = escapeHtml(priceMatch[1].trim());
-                const price = escapeHtml(priceMatch[2].trim());
-                const qty   = priceMatch[3].replace(/^×/, '').trim();
-                const noteHtml = note ? `<br><span class="order-note">※${escapeHtml(note)}</span>` : '';
-                const qtyCell  = escapeHtml(qty || '1');
-                return `                        <tr><td class="order-name">${name}${noteHtml}</td><td class="order-price">${price}</td><td class="order-qty">${qtyCell}</td></tr>`;
-            }
-            // パターン不一致はそのまま全幅で表示
-            console.warn(`[WARN] 注文項目のパースに失敗しました(フォーマット不一致のためそのまま表示します): "${item}"`);
-            return `                        <tr><td class="order-name" colspan="3">${escapeHtml(item)}</td></tr>`;
-        }).join('\n');
-
         return `                    <div class="order-block">
-                        <div class="order-total"><span class="price-tag">合計金額：${escapeHtml(order.total)}</span></div>
+                        <div class="order-total"><span class="price-tag">合計金額：${buildOrderTotalText(order)}</span></div>
                         <table class="order-table">
                             <thead>
                                 <tr>
@@ -224,7 +261,7 @@ function buildOrders(orders) {
                                 </tr>
                             </thead>
                             <tbody>
-${rows}
+${buildOrderItemRows(order.items)}
                             </tbody>
                         </table>
                     </div>`;
@@ -299,6 +336,7 @@ function render(template, shop, content, prevShop, nextShop) {
         '{{IMG}}':         escapeHtml(shop.img),
         '{{URL}}':         escapeHtml(shop.url),
         '{{STATUS_BANNER}}': buildClosedNotice(shop.status),
+        '{{STRUCTURED_DATA}}': buildStructuredData(shop, content),
         '{{PREV_LINK}}':   buildShopNavLink(prevShop, 'prev'),
         '{{NEXT_LINK}}':   buildShopNavLink(nextShop, 'next'),
         '{{TAGS}}':        (shop.tags || '').split(' ').filter(Boolean).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join(''),

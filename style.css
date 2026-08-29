@@ -104,11 +104,10 @@ header p:not(.site-name) {
     color: var(--label-color);
 }
 
-/* サブページのヘッダー説明文 */
+/* サブページのヘッダー説明文(トップページのheader pとフォントサイズを揃える) */
 .site-desc {
     margin: 6px 0 0;
     color: var(--label-color);
-    font-size: 0.9rem;
 }
 
 /* 店舗・ガイドページのヘッダーサイト名リンク */

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{FULL_NAME}} - 大阪激安居酒屋データベース</title>
+
+    <!-- OGP(SNSシェア・SEO用) -->
+    <meta property="og:title" content="{{FULL_NAME}} - 大阪激安居酒屋データベース">
+    <meta property="og:description" content="{{SUBTITLE}}">
+    <meta property="og:image" content="https://osaka-gekiyasu-db.com/images/{{IMG}}">
+    <meta property="og:url" content="https://osaka-gekiyasu-db.com/{{URL}}">
+    <meta property="og:type" content="article">
+    <link rel="canonical" href="https://osaka-gekiyasu-db.com/{{URL}}">
+    <meta name="description" content="{{FULL_NAME}}({{SUBTITLE}})の詳細情報。大阪激安居酒屋データベース。">
+
+    <link rel="icon" href="../favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../style.css">
+
+    <!-- 構造化データ(schema.org) -->
+    {{STRUCTURED_DATA}}
+</head>
+<body>
+    <nav class="global-nav" id="global-nav"></nav>
+
+    <header>
+        <div class="header-content">
+            <p class="site-name">
+                <a href="../">
+                    <img src="../header-logo.png" alt="大阪激安居酒屋データベース" class="header-logo">
+                </a>
+            </p>
+            <p class="site-desc">大阪を中心に、ちょい飲み・ハッピーアワーやせんべろセットが充実した激安居酒屋・コストパフォーマンスに優れた居酒屋をまとめています</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="layout-wrapper">
+            <div class="main-content">
+                <article>
+                    <h1>【{{AREA}}】{{NAME}}</h1>
+
+                    {{STATUS_BANNER}}
+
+                    <div class="dates">
+                        <span>最終訪問日：{{VISIT_DATE}}</span>
+                        <span>最終更新日：{{UPDATE_DATE}}</span>
+                    </div>
+
+                    <div class="shop-subtitle">{{SUBTITLE}}</div>
+
+                    <div class="price-grid price-grid-detail">
+                        <div class="price-item"><span class="label"><i class="mdi mdi-silverware-variant"></i> お通し</span>{{OTOSHI}}</div>
+                        <div class="price-item"><span class="label"><i class="mdi mdi-clock-fast"></i> ハッピーアワー</span>{{HAPPYHOUR}}</div>
+                        <div class="price-item"><span class="label"><i class="mdi mdi-food-fork-drink"></i> せんべろセット</span>{{SET}}</div>
+                        <div class="price-item"><span class="label"><i class="mdi mdi-currency-jpy"></i> 予算</span>{{BUDGET}}</div>
+                        <div class="price-item"><span class="label"><i class="mdi mdi-account-group"></i> 推奨人数</span>{{PERSONS}}</div>
+                        <div class="price-item"><span class="label"><i class="mdi mdi-smoking"></i> 喫煙</span>{{SMOKE}}</div>
+                    </div>
+
+                    <div class="tags-container">{{TAGS}}</div>
+
+                    <h2 class="section-heading">店舗情報</h2>
+                    <p>公式ホームページ・SNS</p>
+                    {{LINKS_TABLE}}
+
+                    <p class="map-label">Google Map</p>
+                    {{MAP}}
+
+                    <h2 class="section-heading">トピックス</h2>
+                    {{TOPICS}}
+
+                    <h2 class="section-heading">注文例</h2>
+                    {{ORDERS}}
+
+                    <h2 class="section-heading">写真</h2>
+                    {{PHOTOS}}
+
+                    <div class="disclaimer">
+                        ※当記事に記載されている情報は訪問時点のものです。お通し代、席料、メニューや価格、営業時間、定休日などは変更されている場合がありますので、来店される際はご自身で最新情報をご確認ください。<br>
+                        ※掲載している感想や評価は、あくまで筆者の個人的な主観に基づくものです。参考程度にご覧ください。<br>
+                        ※閉店や移転、記載情報の誤り、情報が古いなどの報告は<a href="../guide/contact.html">こちら</a>からお願いします。
+                    </div>
+
+                </article>
+
+                <div class="back-link-wrapper shop-pager">
+                    <div class="shop-pager-slot shop-pager-slot-prev">{{PREV_LINK}}</div>
+                    <a href="../" class="page-btn shop-pager-top">トップページへ戻る</a>
+                    <div class="shop-pager-slot shop-pager-slot-next">{{NEXT_LINK}}</div>
+                </div>
+
+                <!-- 共有ボタン -->
+                <div class="share-buttons-area">
+                    <p class="share-label"><i class="mdi mdi-share-variant"></i> このページを共有</p>
+                    <div class="share-buttons">
+                        <a class="share-btn share-x" href="#" onclick="shareX(event)" title="X(Twitter)でシェア"><i class="mdi mdi-twitter"></i><span>X</span></a>
+                        <a class="share-btn share-facebook" href="#" onclick="shareFacebook(event)" title="Facebookでシェア"><i class="mdi mdi-facebook"></i><span>Facebook</span></a>
+                        <a class="share-btn share-line" href="#" onclick="shareLine(event)" title="LINEでシェア"><i class="mdi mdi-chat"></i><span>LINE</span></a>
+                        <a class="share-btn share-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" title="Instagramを開く"><i class="mdi mdi-instagram"></i><span>Instagram</span></a>
+                        <a class="share-btn share-bluesky" href="#" onclick="shareBluesky(event)" title="Blueskyでシェア"><i class="mdi mdi-butterfly"></i><span>Bluesky</span></a>
+                        <a class="share-btn share-threads" href="#" onclick="shareThreads(event)" title="Threadsでシェア"><i class="mdi mdi-at"></i><span>Threads</span></a>
+                        <a class="share-btn share-copy" href="#" onclick="copyUrl(event)" title="URLをコピー"><i class="mdi mdi-link-variant"></i><span>URLをコピー</span></a>
+                    </div>
+                </div>
+            </div><!-- /.main-content -->
+
+            <!-- サイドバー(sidebar.jsにより自動生成) -->
+            <aside class="sidebar" id="common-sidebar"></aside>
+        </div><!-- /.layout-wrapper -->
+    </main>
+
+    <footer>
+        <p>&copy; 2026 大阪激安居酒屋データベース</p>
+    </footer>
+
+    <script src="../utils.js"></script>
+    <script src="../share.js"></script>
+    <script src="../sidebar.js"></script>
+    <script src="../nav.js"></script>
+</body>
+</html>
